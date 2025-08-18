@@ -45,10 +45,9 @@ public class DmnEvaluationTest {
         // Then
         assertFalse(result.hasErrors(), "DMN evaluation should not have errors");
         
-        String eligibilityResult = getDecisionResult(result, "Eligibility Check");
+        // With decision service, only output decisions are returned
         String approvalResult = getDecisionResult(result, "Loan Approval");
         
-        assertEquals("ELIGIBLE", eligibilityResult);
         assertEquals("APPROVED", approvalResult);
     }
 
@@ -65,10 +64,9 @@ public class DmnEvaluationTest {
         // Then
         assertFalse(result.hasErrors(), "DMN evaluation should not have errors");
         
-        String eligibilityResult = getDecisionResult(result, "Eligibility Check");
+        // With decision service, only output decisions are returned
         String approvalResult = getDecisionResult(result, "Loan Approval");
         
-        assertEquals("NOT_ELIGIBLE", eligibilityResult);
         assertEquals("REJECTED", approvalResult);
     }
 
@@ -85,10 +83,9 @@ public class DmnEvaluationTest {
         // Then
         assertFalse(result.hasErrors(), "DMN evaluation should not have errors");
         
-        String eligibilityResult = getDecisionResult(result, "Eligibility Check");
+        // With decision service, only output decisions are returned
         String approvalResult = getDecisionResult(result, "Loan Approval");
         
-        assertEquals("ELIGIBLE", eligibilityResult);
         assertEquals("REJECTED", approvalResult);
     }
 
@@ -105,10 +102,9 @@ public class DmnEvaluationTest {
         // Then
         assertFalse(result.hasErrors(), "DMN evaluation should not have errors");
         
-        String eligibilityResult = getDecisionResult(result, "Eligibility Check");
+        // With decision service, only output decisions are returned
         String approvalResult = getDecisionResult(result, "Loan Approval");
         
-        assertEquals("NOT_ELIGIBLE", eligibilityResult);
         assertEquals("REJECTED", approvalResult);
     }
 
@@ -125,10 +121,9 @@ public class DmnEvaluationTest {
         // Then
         assertFalse(result.hasErrors(), "DMN evaluation should not have errors");
         
-        String eligibilityResult = getDecisionResult(result, "Eligibility Check");
+        // With decision service, only output decisions are returned
         String approvalResult = getDecisionResult(result, "Loan Approval");
         
-        assertEquals("NOT_ELIGIBLE", eligibilityResult);
         assertEquals("REJECTED", approvalResult);
     }
 
@@ -137,7 +132,7 @@ public class DmnEvaluationTest {
         dmnContext.set("Applicant", applicant);
         dmnContext.set("Loan", loan);
         
-        return dmnRuntime.evaluateAll(dmnRuntime.getModels().get(0), dmnContext);
+        return dmnRuntime.evaluateDecisionService(dmnRuntime.getModels().get(0), dmnContext, "Loan Approval Service");
     }
 
     private String getDecisionResult(DMNResult result, String decisionName) {

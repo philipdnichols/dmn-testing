@@ -107,9 +107,9 @@ public class DmnEvaluationExample {
             System.out.println("  Applicant: " + applicant);
             System.out.println("  Loan: " + loan);
             
-            // Evaluate all decisions in the model
-            DMNResult dmnResult = dmnRuntime.evaluateAll(
-                dmnRuntime.getModels().get(0), dmnContext);
+            // Evaluate using decision service instead of all decisions
+            DMNResult dmnResult = dmnRuntime.evaluateDecisionService(
+                dmnRuntime.getModels().get(0), dmnContext, "Loan Approval Service");
             
             if (dmnResult.hasErrors()) {
                 System.err.println("DMN evaluation errors:");

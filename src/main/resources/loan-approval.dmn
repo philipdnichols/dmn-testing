@@ -20,6 +20,14 @@
       <dmn:typeRef>number</dmn:typeRef>
     </dmn:itemComponent>
   </dmn:itemDefinition>
+  <dmn:decisionService id="_loan_approval_service" name="Loan Approval Service">
+    <dmn:extensionElements/>
+    <dmn:variable id="_loan_approval_service_variable" name="Loan Approval Service"/>
+    <dmn:outputDecision href="#_loan_approval"/>
+    <dmn:encapsulatedDecision href="#_eligibility_check"/>
+    <dmn:inputData href="#_loan_input"/>
+    <dmn:inputData href="#_applicant_input"/>
+  </dmn:decisionService>
   <dmn:inputData id="_applicant_input" name="Applicant">
     <dmn:extensionElements/>
     <dmn:variable id="_applicant_variable" name="Applicant" typeRef="Applicant"/>
@@ -204,6 +212,19 @@
           <kie:ComponentWidths dmnElementRef="_loan_approval_table"/>
         </kie:ComponentsWidthsExtension>
       </di:extension>
+      <dmndi:DMNShape id="dmnshape-drg-_loan_approval_service" dmnElementRef="_loan_approval_service" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="192"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="137" y="79" width="275" height="200"/>
+        <dmndi:DMNLabel/>
+        <dmndi:DMNDecisionServiceDividerLine>
+          <di:waypoint x="137" y="179"/>
+          <di:waypoint x="412" y="179"/>
+        </dmndi:DMNDecisionServiceDividerLine>
+      </dmndi:DMNShape>
       <dmndi:DMNShape id="dmnshape-drg-_applicant_input" dmnElementRef="_applicant_input" isCollapsed="false">
         <dmndi:DMNStyle>
           <dmndi:FillColor red="255" green="255" blue="255"/>
@@ -219,7 +240,7 @@
           <dmndi:StrokeColor red="0" green="0" blue="0"/>
           <dmndi:FontColor red="0" green="0" blue="0"/>
         </dmndi:DMNStyle>
-        <dc:Bounds x="225" y="225" width="100" height="50"/>
+        <dc:Bounds x="377" y="293" width="100" height="50"/>
         <dmndi:DMNLabel/>
       </dmndi:DMNShape>
       <dmndi:DMNShape id="dmnshape-drg-_eligibility_check" dmnElementRef="_eligibility_check" isCollapsed="false">
@@ -228,7 +249,7 @@
           <dmndi:StrokeColor red="0" green="0" blue="0"/>
           <dmndi:FontColor red="0" green="0" blue="0"/>
         </dmndi:DMNStyle>
-        <dc:Bounds x="50" y="225" width="100" height="50"/>
+        <dc:Bounds x="172" y="207" width="100" height="50"/>
         <dmndi:DMNLabel/>
       </dmndi:DMNShape>
       <dmndi:DMNShape id="dmnshape-drg-_loan_approval" dmnElementRef="_loan_approval" isCollapsed="false">
@@ -237,20 +258,20 @@
           <dmndi:StrokeColor red="0" green="0" blue="0"/>
           <dmndi:FontColor red="0" green="0" blue="0"/>
         </dmndi:DMNStyle>
-        <dc:Bounds x="137" y="50" width="100" height="50"/>
+        <dc:Bounds x="219" y="116" width="100" height="50"/>
         <dmndi:DMNLabel/>
       </dmndi:DMNShape>
       <dmndi:DMNEdge id="dmnedge-drg-_CDAD9854-1227-4152-83B9-8622C3D3815D" dmnElementRef="_CDAD9854-1227-4152-83B9-8622C3D3815D">
         <di:waypoint x="187" y="425"/>
-        <di:waypoint x="100" y="250"/>
+        <di:waypoint x="222" y="232"/>
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="dmnedge-drg-_A49FF405-1EEA-4B65-A67B-BF1024821C7C" dmnElementRef="_A49FF405-1EEA-4B65-A67B-BF1024821C7C">
-        <di:waypoint x="100" y="250"/>
-        <di:waypoint x="187" y="75"/>
+        <di:waypoint x="222" y="232"/>
+        <di:waypoint x="269" y="141"/>
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="dmnedge-drg-_245B98B4-C309-42F9-A823-BFA4347B4051" dmnElementRef="_245B98B4-C309-42F9-A823-BFA4347B4051">
-        <di:waypoint x="275" y="250"/>
-        <di:waypoint x="187" y="75"/>
+        <di:waypoint x="427" y="318"/>
+        <di:waypoint x="269" y="141"/>
       </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
