@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" 
+                 xmlns="https://example.com/dmn/healthcare" 
+                 xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" 
+                 xmlns:kie="http://www.drools.org/kie/dmn/1.2" 
+                 xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" 
+                 xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" 
+                 xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" 
+                 id="_healthcare_treatment_protocol" 
+                 name="Healthcare Treatment Protocol" 
+                 typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" 
+                 namespace="https://example.com/dmn/healthcare">
+
+  <!-- Complex Item Definitions -->
+  <dmn:itemDefinition id="_patient" name="Patient" isCollection="false">
+    <dmn:itemComponent id="_patient_age" name="age" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_patient_gender" name="gender" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_patient_weight" name="weight" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_patient_height" name="height" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_patient_bmi" name="bmi" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_patient_blood_pressure_category" name="bloodPressureCategory" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_patient_heart_rate" name="heartRate" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_patient_temperature" name="temperature" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_patient_oxygen_saturation" name="oxygenSaturation" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+
+  <dmn:itemDefinition id="_medical_history" name="MedicalHistory" isCollection="false">
+    <dmn:itemComponent id="_medical_chronic_conditions" name="chronicConditions" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_medical_allergies" name="allergies" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_medical_current_medications" name="currentMedications" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_medical_recent_surgeries" name="recentSurgeries" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_medical_family_history" name="familyHistory" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_medical_smoking_status" name="smokingStatus" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_medical_alcohol_use" name="alcoholUse" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+
+  <dmn:itemDefinition id="_symptoms" name="Symptoms" isCollection="false">
+    <dmn:itemComponent id="_symptoms_primary_complaint" name="primaryComplaint" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_symptoms_duration_hours" name="durationHours" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_symptoms_severity_scale" name="severityScale" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_symptoms_associated_symptoms" name="associatedSymptoms" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_symptoms_pain_scale" name="painScale" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_symptoms_onset_type" name="onsetType" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_symptoms_pattern" name="pattern" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+
+  <dmn:itemDefinition id="_lab_results" name="LabResults" isCollection="false">
+    <dmn:itemComponent id="_lab_blood_count" name="bloodCount" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_lab_chemistry_panel" name="chemistryPanel" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_lab_liver_function" name="liverFunction" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_lab_kidney_function" name="kidneyFunction" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_lab_cardiac_markers" name="cardiacMarkers" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_lab_inflammatory_markers" name="inflammatoryMarkers" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_lab_glucose_level" name="glucoseLevel" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_lab_hemoglobin_a1c" name="hemoglobinA1c" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+
+  <dmn:itemDefinition id="_imaging_results" name="ImagingResults" isCollection="false">
+    <dmn:itemComponent id="_imaging_chest_xray" name="chestXray" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_imaging_ct_scan" name="ctScan" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_imaging_mri" name="mri" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_imaging_ultrasound" name="ultrasound" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_imaging_ecg" name="ecg" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_imaging_echocardiogram" name="echocardiogram" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+
+  <!-- Decision Service -->
+  <dmn:decisionService id="_healthcare_treatment_protocol_service" name="Healthcare Treatment Protocol Service">
+    <dmn:variable id="_healthcare_treatment_protocol_service_variable" name="Healthcare Treatment Protocol Service"/>
+    <dmn:outputDecision href="#_treatment_recommendation"/>
+    <dmn:outputDecision href="#_urgency_level"/>
+    <dmn:encapsulatedDecision href="#_risk_stratification"/>
+    <dmn:encapsulatedDecision href="#_diagnostic_assessment"/>
+    <dmn:encapsulatedDecision href="#_medication_safety_check"/>
+    <dmn:encapsulatedDecision href="#_contraindication_check"/>
+    <dmn:encapsulatedDecision href="#_severity_assessment"/>
+    <dmn:inputData href="#_patient_input"/>
+    <dmn:inputData href="#_medical_history_input"/>
+    <dmn:inputData href="#_symptoms_input"/>
+    <dmn:inputData href="#_lab_results_input"/>
+    <dmn:inputData href="#_imaging_results_input"/>
+  </dmn:decisionService>
+
+  <!-- Input Data -->
+  <dmn:inputData id="_patient_input" name="Patient">
+    <dmn:variable id="_patient_variable" name="Patient" typeRef="Patient"/>
+  </dmn:inputData>
+
+  <dmn:inputData id="_medical_history_input" name="MedicalHistory">
+    <dmn:variable id="_medical_history_variable" name="MedicalHistory" typeRef="MedicalHistory"/>
+  </dmn:inputData>
+
+  <dmn:inputData id="_symptoms_input" name="Symptoms">
+    <dmn:variable id="_symptoms_variable" name="Symptoms" typeRef="Symptoms"/>
+  </dmn:inputData>
+
+  <dmn:inputData id="_lab_results_input" name="LabResults">
+    <dmn:variable id="_lab_results_variable" name="LabResults" typeRef="LabResults"/>
+  </dmn:inputData>
+
+  <dmn:inputData id="_imaging_results_input" name="ImagingResults">
+    <dmn:variable id="_imaging_results_variable" name="ImagingResults" typeRef="ImagingResults"/>
+  </dmn:inputData>
+
+  <!-- Decision: Severity Assessment -->
+  <dmn:decision id="_severity_assessment" name="Severity Assessment">
+    <dmn:variable id="_severity_assessment_variable" name="Severity Assessment" typeRef="number"/>
+    <dmn:informationRequirement id="_req_patient_for_severity">
+      <dmn:requiredInput href="#_patient_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_symptoms_for_severity">
+      <dmn:requiredInput href="#_symptoms_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_severity_assessment_expression">
+      <dmn:text>
+        (Symptoms.severityScale * 10) +
+        (Symptoms.painScale * 5) +
+        (if Patient.heartRate &gt; 100 or Patient.heartRate &lt; 60 then 15 else 0) +
+        (if Patient.oxygenSaturation &lt; 95 then 20 else if Patient.oxygenSaturation &lt; 98 then 10 else 0) +
+        (if Patient.temperature &gt; 38.5 or Patient.temperature &lt; 36.0 then 15 else 0) +
+        (if Patient.bloodPressureCategory = "SEVERE_HYPERTENSION" then 15 else if Patient.bloodPressureCategory = "HYPOTENSION" then 20 else 0) +
+        (if Symptoms.onsetType = "SUDDEN" then 10 else 0) +
+        (if count(Symptoms.associatedSymptoms) &gt; 3 then 10 else 0)
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+
+  <!-- Decision: Risk Stratification -->
+  <dmn:decision id="_risk_stratification" name="Risk Stratification">
+    <dmn:variable id="_risk_stratification_variable" name="Risk Stratification" typeRef="string"/>
+    <dmn:informationRequirement id="_req_severity_for_risk">
+      <dmn:requiredDecision href="#_severity_assessment"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_patient_for_risk">
+      <dmn:requiredInput href="#_patient_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_medical_history_for_risk">
+      <dmn:requiredInput href="#_medical_history_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_symptoms_for_risk">
+      <dmn:requiredInput href="#_symptoms_input"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_risk_stratification_table" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_severity_score_input">
+        <dmn:inputExpression id="_severity_score_expression" typeRef="number">
+          <dmn:text>Severity Assessment</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_age_risk_input">
+        <dmn:inputExpression id="_age_risk_expression" typeRef="number">
+          <dmn:text>Patient.age</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_chronic_conditions_input">
+        <dmn:inputExpression id="_chronic_conditions_expression" typeRef="number">
+          <dmn:text>count(MedicalHistory.chronicConditions)</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_primary_complaint_input">
+        <dmn:inputExpression id="_primary_complaint_expression" typeRef="string">
+          <dmn:text>Symptoms.primaryComplaint</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_risk_level_output">
+        <dmn:outputValues id="_risk_level_output_values">
+          <dmn:text>"LOW_RISK","MODERATE_RISK","HIGH_RISK","VERY_HIGH_RISK","CRITICAL"</dmn:text>
+        </dmn:outputValues>
+      </dmn:output>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_risk_rule_1">
+        <dmn:inputEntry id="_severity_score_entry_1">
+          <dmn:text>&gt; 80</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_age_risk_entry_1">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_chronic_conditions_entry_1">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_primary_complaint_entry_1">
+          <dmn:text>"CHEST_PAIN","DIFFICULTY_BREATHING","SEVERE_TRAUMA"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_level_output_1">
+          <dmn:text>"CRITICAL"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Life-threatening condition requiring immediate intervention</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_risk_rule_2">
+        <dmn:inputEntry id="_severity_score_entry_2">
+          <dmn:text>[60..80]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_age_risk_entry_2">
+          <dmn:text>&gt; 65</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_chronic_conditions_entry_2">
+          <dmn:text>&gt;= 2</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_primary_complaint_entry_2">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_level_output_2">
+          <dmn:text>"VERY_HIGH_RISK"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>High severity with comorbidities in elderly patient</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_risk_rule_3">
+        <dmn:inputEntry id="_severity_score_entry_3">
+          <dmn:text>[40..60)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_age_risk_entry_3">
+          <dmn:text>&gt; 50</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_chronic_conditions_entry_3">
+          <dmn:text>&gt;= 1</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_primary_complaint_entry_3">
+          <dmn:text>"CHEST_PAIN","ABDOMINAL_PAIN","NEUROLOGICAL_SYMPTOMS"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_level_output_3">
+          <dmn:text>"HIGH_RISK"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Moderate severity with risk factors</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_risk_rule_4">
+        <dmn:inputEntry id="_severity_score_entry_4">
+          <dmn:text>[20..40)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_age_risk_entry_4">
+          <dmn:text>[18..65]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_chronic_conditions_entry_4">
+          <dmn:text>&lt;= 1</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_primary_complaint_entry_4">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_level_output_4">
+          <dmn:text>"MODERATE_RISK"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Low to moderate severity in healthy adult</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_risk_rule_5">
+        <dmn:inputEntry id="_severity_score_entry_5">
+          <dmn:text>&lt; 20</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_age_risk_entry_5">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_chronic_conditions_entry_5">
+          <dmn:text>0</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_primary_complaint_entry_5">
+          <dmn:text>"MILD_PAIN","FATIGUE","MINOR_INJURY"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_level_output_5">
+          <dmn:text>"LOW_RISK"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Minor symptoms, low complexity</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_risk_rule_default">
+        <dmn:inputEntry id="_severity_score_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_age_risk_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_chronic_conditions_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_primary_complaint_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_level_output_default">
+          <dmn:text>"MODERATE_RISK"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Default moderate risk</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+
+  <!-- Decision: Diagnostic Assessment -->
+  <dmn:decision id="_diagnostic_assessment" name="Diagnostic Assessment">
+    <dmn:variable id="_diagnostic_assessment_variable" name="Diagnostic Assessment" typeRef="string"/>
+    <dmn:informationRequirement id="_req_symptoms_for_diagnostic">
+      <dmn:requiredInput href="#_symptoms_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_lab_for_diagnostic">
+      <dmn:requiredInput href="#_lab_results_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_imaging_for_diagnostic">
+      <dmn:requiredInput href="#_imaging_results_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_patient_for_diagnostic">
+      <dmn:requiredInput href="#_patient_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_diagnostic_assessment_expression">
+      <dmn:text>
+        if Symptoms.primaryComplaint = "CHEST_PAIN" and LabResults.cardiacMarkers = "ELEVATED" and ImagingResults.ecg = "ABNORMAL" then "ACUTE_CORONARY_SYNDROME"
+        else if Symptoms.primaryComplaint = "DIFFICULTY_BREATHING" and ImagingResults.chestXray = "ABNORMAL" and Patient.oxygenSaturation &lt; 95 then "RESPIRATORY_EMERGENCY"
+        else if Symptoms.primaryComplaint = "ABDOMINAL_PAIN" and Symptoms.severityScale &gt; 7 and LabResults.inflammatoryMarkers = "ELEVATED" then "ACUTE_ABDOMEN"
+        else if Symptoms.primaryComplaint = "NEUROLOGICAL_SYMPTOMS" and Patient.age &gt; 50 and ImagingResults.ctScan = "ABNORMAL" then "NEUROLOGICAL_EMERGENCY"
+        else if LabResults.glucoseLevel &gt; 400 or LabResults.glucoseLevel &lt; 50 then "DIABETIC_EMERGENCY"
+        else if Patient.temperature &gt; 39.0 and LabResults.bloodCount = "ABNORMAL" and LabResults.inflammatoryMarkers = "ELEVATED" then "SEPSIS_CONCERN"
+        else if Symptoms.primaryComplaint = "TRAUMA" and Symptoms.severityScale &gt; 6 then "TRAUMA_ALERT"
+        else "STANDARD_ASSESSMENT_REQUIRED"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+
+  <!-- Decision: Medication Safety Check -->
+  <dmn:decision id="_medication_safety_check" name="Medication Safety Check">
+    <dmn:variable id="_medication_safety_check_variable" name="Medication Safety Check" typeRef="string"/>
+    <dmn:informationRequirement id="_req_medical_history_for_medication">
+      <dmn:requiredInput href="#_medical_history_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_patient_for_medication">
+      <dmn:requiredInput href="#_patient_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_lab_for_medication">
+      <dmn:requiredInput href="#_lab_results_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_medication_safety_check_expression">
+      <dmn:text>
+        if Patient.age &gt; 75 and LabResults.kidneyFunction = "IMPAIRED" then "DOSE_ADJUSTMENT_REQUIRED_ELDERLY_RENAL"
+        else if LabResults.liverFunction = "IMPAIRED" and count(MedicalHistory.currentMedications) &gt; 5 then "HEPATIC_CONTRAINDICATION_CHECK"
+        else if count(MedicalHistory.allergies) &gt; 0 then "ALLERGY_VERIFICATION_REQUIRED"
+        else if count(MedicalHistory.currentMedications) &gt; 10 then "POLYPHARMACY_REVIEW_NEEDED"
+        else if Patient.age &lt; 18 then "PEDIATRIC_DOSING_REQUIRED"
+        else if Patient.weight &lt; 50 or Patient.weight &gt; 120 then "WEIGHT_BASED_DOSING_ADJUSTMENT"
+        else "STANDARD_MEDICATION_PROTOCOLS"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+
+  <!-- Decision: Contraindication Check -->
+  <dmn:decision id="_contraindication_check" name="Contraindication Check">
+    <dmn:variable id="_contraindication_check_variable" name="Contraindication Check" typeRef="string"/>
+    <dmn:informationRequirement id="_req_medical_history_for_contraindication">
+      <dmn:requiredInput href="#_medical_history_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_diagnostic_for_contraindication">
+      <dmn:requiredDecision href="#_diagnostic_assessment"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_patient_for_contraindication">
+      <dmn:requiredInput href="#_patient_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_contraindication_check_expression">
+      <dmn:text>
+        if Diagnostic Assessment = "ACUTE_CORONARY_SYNDROME" and count(MedicalHistory.allergies) &gt; 0 and list contains(MedicalHistory.allergies, "ASPIRIN") then "ASPIRIN_CONTRAINDICATED"
+        else if list contains(MedicalHistory.chronicConditions, "BLEEDING_DISORDER") and Diagnostic Assessment = "ACUTE_CORONARY_SYNDROME" then "ANTICOAGULATION_CAUTION"
+        else if Patient.age &gt; 80 and Diagnostic Assessment = "NEUROLOGICAL_EMERGENCY" and list contains(MedicalHistory.chronicConditions, "KIDNEY_DISEASE") then "CONTRAST_CONTRAINDICATED"
+        else if MedicalHistory.smokingStatus = "CURRENT_SMOKER" and list contains(MedicalHistory.chronicConditions, "HEART_DISEASE") then "SMOKING_CESSATION_CRITICAL"
+        else if Patient.gender = "FEMALE" and Patient.age &lt; 50 and count(MedicalHistory.currentMedications[contains(item, "HORMONE")]) &gt; 0 then "PREGNANCY_STATUS_CHECK"
+        else "NO_MAJOR_CONTRAINDICATIONS"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+
+  <!-- Decision: Urgency Level -->
+  <dmn:decision id="_urgency_level" name="Urgency Level">
+    <dmn:variable id="_urgency_level_variable" name="Urgency Level" typeRef="string"/>
+    <dmn:informationRequirement id="_req_risk_stratification_for_urgency">
+      <dmn:requiredDecision href="#_risk_stratification"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_diagnostic_for_urgency">
+      <dmn:requiredDecision href="#_diagnostic_assessment"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_symptoms_for_urgency">
+      <dmn:requiredInput href="#_symptoms_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_urgency_level_expression">
+      <dmn:text>
+        if Risk Stratification = "CRITICAL" or Diagnostic Assessment = "ACUTE_CORONARY_SYNDROME" or Diagnostic Assessment = "RESPIRATORY_EMERGENCY" then "IMMEDIATE_RESUSCITATION"
+        else if Risk Stratification = "VERY_HIGH_RISK" or Diagnostic Assessment = "NEUROLOGICAL_EMERGENCY" or Diagnostic Assessment = "SEPSIS_CONCERN" then "EMERGENT_15_MINUTES"
+        else if Risk Stratification = "HIGH_RISK" or Diagnostic Assessment = "ACUTE_ABDOMEN" or Diagnostic Assessment = "DIABETIC_EMERGENCY" then "URGENT_60_MINUTES"
+        else if Risk Stratification = "MODERATE_RISK" or Symptoms.durationHours &gt; 24 then "LESS_URGENT_2_HOURS"
+        else if Risk Stratification = "LOW_RISK" and Symptoms.painScale &lt;= 4 then "NON_URGENT_4_HOURS"
+        else "STANDARD_TRIAGE_ASSESSMENT"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+
+  <!-- Decision: Treatment Recommendation -->
+  <dmn:decision id="_treatment_recommendation" name="Treatment Recommendation">
+    <dmn:variable id="_treatment_recommendation_variable" name="Treatment Recommendation" typeRef="string"/>
+    <dmn:informationRequirement id="_req_diagnostic_for_treatment">
+      <dmn:requiredDecision href="#_diagnostic_assessment"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_medication_safety_for_treatment">
+      <dmn:requiredDecision href="#_medication_safety_check"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_contraindication_for_treatment">
+      <dmn:requiredDecision href="#_contraindication_check"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_urgency_for_treatment">
+      <dmn:requiredDecision href="#_urgency_level"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req_patient_for_treatment">
+      <dmn:requiredInput href="#_patient_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_treatment_recommendation_expression">
+      <dmn:text>
+        if Diagnostic Assessment = "ACUTE_CORONARY_SYNDROME" and Contraindication Check = "NO_MAJOR_CONTRAINDICATIONS" then "DUAL_ANTIPLATELET_THERAPY_CATH_LAB_ACTIVATION"
+        else if Diagnostic Assessment = "RESPIRATORY_EMERGENCY" and Urgency Level = "IMMEDIATE_RESUSCITATION" then "OXYGEN_THERAPY_INTUBATION_CONSIDERATION"
+        else if Diagnostic Assessment = "SEPSIS_CONCERN" and Patient.age &gt; 65 then "BROAD_SPECTRUM_ANTIBIOTICS_ICU_CONSULT"
+        else if Diagnostic Assessment = "DIABETIC_EMERGENCY" and Medication Safety Check = "STANDARD_MEDICATION_PROTOCOLS" then "INSULIN_PROTOCOL_GLUCOSE_MONITORING"
+        else if Diagnostic Assessment = "NEUROLOGICAL_EMERGENCY" and Contraindication Check = "NO_MAJOR_CONTRAINDICATIONS" then "STROKE_PROTOCOL_NEUROLOGY_CONSULT"
+        else if Diagnostic Assessment = "ACUTE_ABDOMEN" and Urgency Level = "URGENT_60_MINUTES" then "SURGICAL_CONSULT_NPO_STATUS"
+        else if Diagnostic Assessment = "TRAUMA_ALERT" then "TRAUMA_TEAM_ACTIVATION_IMAGING_STUDIES"
+        else if Medication Safety Check = "ALLERGY_VERIFICATION_REQUIRED" then "COMPREHENSIVE_ALLERGY_ASSESSMENT_ALTERNATIVE_MEDICATIONS"
+        else if Urgency Level = "NON_URGENT_4_HOURS" then "OUTPATIENT_MANAGEMENT_PRIMARY_CARE_FOLLOW_UP"
+        else "STANDARD_CARE_PROTOCOLS_MONITOR_AND_REASSESS"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+
+</dmn:definitions>

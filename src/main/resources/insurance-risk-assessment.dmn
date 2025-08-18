@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://example.com/dmn/insurance" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_insurance_risk_assessment" name="Insurance Risk Assessment" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://example.com/dmn/insurance">
+  <dmn:extensionElements/>
+  <dmn:itemDefinition id="_person" name="Person" isCollection="false">
+    <dmn:itemComponent id="_person_age" name="age" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_person_gender" name="gender" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_person_occupation" name="occupation" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_person_marital_status" name="maritalStatus" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_person_annual_income" name="annualIncome" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_person_credit_score" name="creditScore" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_vehicle" name="Vehicle" isCollection="false">
+    <dmn:itemComponent id="_vehicle_make" name="make" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_vehicle_model" name="model" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_vehicle_year" name="year" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_vehicle_value" name="value" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_vehicle_safety_rating" name="safetyRating" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_vehicle_anti_theft" name="antiTheft" isCollection="false">
+      <dmn:typeRef>boolean</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_driving_history" name="DrivingHistory" isCollection="false">
+    <dmn:itemComponent id="_driving_years_licensed" name="yearsLicensed" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_driving_accidents" name="accidentsLastThreeYears" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_driving_violations" name="violationsLastThreeYears" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_driving_claims" name="claimsLastFiveYears" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_driving_miles_per_year" name="milesPerYear" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_coverage" name="Coverage" isCollection="false">
+    <dmn:itemComponent id="_coverage_liability" name="liability" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_coverage_comprehensive" name="comprehensive" isCollection="false">
+      <dmn:typeRef>boolean</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_coverage_collision" name="collision" isCollection="false">
+      <dmn:typeRef>boolean</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_coverage_deductible" name="deductible" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:decisionService id="_insurance_risk_assessment_service" name="Insurance Risk Assessment Service">
+    <dmn:extensionElements/>
+    <dmn:variable id="_insurance_risk_assessment_service_variable" name="Insurance Risk Assessment Service"/>
+    <dmn:outputDecision href="#_final_risk_assessment"/>
+    <dmn:outputDecision href="#_premium_calculation"/>
+    <dmn:encapsulatedDecision href="#_driver_risk_score"/>
+    <dmn:encapsulatedDecision href="#_vehicle_risk_score"/>
+    <dmn:encapsulatedDecision href="#_financial_stability_score"/>
+    <dmn:encapsulatedDecision href="#_coverage_risk_adjustment"/>
+    <dmn:inputData href="#_person_input"/>
+    <dmn:inputData href="#_vehicle_input"/>
+    <dmn:inputData href="#_driving_history_input"/>
+    <dmn:inputData href="#_coverage_input"/>
+  </dmn:decisionService>
+  <dmn:inputData id="_person_input" name="Person">
+    <dmn:extensionElements/>
+    <dmn:variable id="_person_variable" name="Person" typeRef="Person"/>
+  </dmn:inputData>
+  <dmn:inputData id="_vehicle_input" name="Vehicle">
+    <dmn:extensionElements/>
+    <dmn:variable id="_vehicle_variable" name="Vehicle" typeRef="Vehicle"/>
+  </dmn:inputData>
+  <dmn:inputData id="_driving_history_input" name="DrivingHistory">
+    <dmn:extensionElements/>
+    <dmn:variable id="_driving_history_variable" name="DrivingHistory" typeRef="DrivingHistory"/>
+  </dmn:inputData>
+  <dmn:inputData id="_coverage_input" name="Coverage">
+    <dmn:extensionElements/>
+    <dmn:variable id="_coverage_variable" name="Coverage" typeRef="Coverage"/>
+  </dmn:inputData>
+  <dmn:decision id="_driver_risk_score" name="Driver Risk Score">
+    <dmn:extensionElements/>
+    <dmn:variable id="_driver_risk_score_variable" name="Driver Risk Score" typeRef="number"/>
+    <dmn:informationRequirement id="_1881DF08-5C81-4DC6-B7BE-FAD5944BC0A5">
+      <dmn:requiredInput href="#_person_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_168179BE-F842-427E-B5D2-6257DE4D3B49">
+      <dmn:requiredInput href="#_driving_history_input"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_driver_risk_score_table" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_age_input">
+        <dmn:inputExpression id="_age_expression" typeRef="number">
+          <dmn:text>Person.age</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_gender_input">
+        <dmn:inputExpression id="_gender_expression" typeRef="string">
+          <dmn:text>Person.gender</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_experience_input">
+        <dmn:inputExpression id="_experience_expression" typeRef="number">
+          <dmn:text>DrivingHistory.yearsLicensed</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_accidents_input">
+        <dmn:inputExpression id="_accidents_expression" typeRef="number">
+          <dmn:text>DrivingHistory.accidentsLastThreeYears</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_violations_input">
+        <dmn:inputExpression id="_violations_expression" typeRef="number">
+          <dmn:text>DrivingHistory.violationsLastThreeYears</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_driver_risk_output">
+        <dmn:outputValues id="_driver_risk_output_values">
+          <dmn:text>10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100</dmn:text>
+        </dmn:outputValues>
+      </dmn:output>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_driver_risk_rule_1">
+        <dmn:inputEntry id="_age_entry_1">
+          <dmn:text>&lt; 25</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_gender_entry_1">
+          <dmn:text>"MALE"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_experience_entry_1">
+          <dmn:text>&lt; 3</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_accidents_entry_1">
+          <dmn:text>&gt; 0</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_violations_entry_1">
+          <dmn:text>&gt; 2</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_driver_risk_output_1">
+          <dmn:text>100</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Very high risk: Young male, inexperienced, accidents, violations</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_driver_risk_rule_2">
+        <dmn:inputEntry id="_age_entry_2">
+          <dmn:text>&lt; 25</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_gender_entry_2">
+          <dmn:text>"MALE"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_experience_entry_2">
+          <dmn:text>&lt; 5</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_accidents_entry_2">
+          <dmn:text>0</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_violations_entry_2">
+          <dmn:text>&lt;= 1</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_driver_risk_output_2">
+          <dmn:text>75</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>High risk: Young male, limited experience, clean record</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_driver_risk_rule_3">
+        <dmn:inputEntry id="_age_entry_3">
+          <dmn:text>[25..35)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_gender_entry_3">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_experience_entry_3">
+          <dmn:text>&gt;= 5</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_accidents_entry_3">
+          <dmn:text>0</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_violations_entry_3">
+          <dmn:text>0</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_driver_risk_output_3">
+          <dmn:text>25</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Low risk: Prime age, experienced, clean record</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_driver_risk_rule_4">
+        <dmn:inputEntry id="_age_entry_4">
+          <dmn:text>[35..55]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_gender_entry_4">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_experience_entry_4">
+          <dmn:text>&gt;= 10</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_accidents_entry_4">
+          <dmn:text>&lt;= 1</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_violations_entry_4">
+          <dmn:text>&lt;= 1</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_driver_risk_output_4">
+          <dmn:text>15</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Very low risk: Prime age, very experienced, excellent record</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_driver_risk_rule_5">
+        <dmn:inputEntry id="_age_entry_5">
+          <dmn:text>&gt; 65</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_gender_entry_5">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_experience_entry_5">
+          <dmn:text>&gt;= 20</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_accidents_entry_5">
+          <dmn:text>&lt;= 1</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_violations_entry_5">
+          <dmn:text>0</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_driver_risk_output_5">
+          <dmn:text>35</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Moderate risk: Senior driver, experienced, clean record</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_driver_risk_rule_default">
+        <dmn:inputEntry id="_age_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_gender_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_experience_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_accidents_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_violations_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_driver_risk_output_default">
+          <dmn:text>50</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Default moderate risk</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="_vehicle_risk_score" name="Vehicle Risk Score">
+    <dmn:extensionElements/>
+    <dmn:variable id="_vehicle_risk_score_variable" name="Vehicle Risk Score" typeRef="number"/>
+    <dmn:informationRequirement id="_E69E5858-A024-487B-B586-629A5291E126">
+      <dmn:requiredInput href="#_vehicle_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_vehicle_risk_score_expression">
+      <dmn:text>
+        (if Vehicle.safetyRating &gt;= 5 then 10 else if Vehicle.safetyRating &gt;= 4 then 20 else if Vehicle.safetyRating &gt;= 3 then 40 else 60) +
+        (if Vehicle.antiTheft then -10 else 15) +
+        (if Vehicle.value &gt; 100000 then 30 else if Vehicle.value &gt; 50000 then 20 else if Vehicle.value &gt; 25000 then 10 else 5) +
+        (if Vehicle.year &gt; 2020 then 5 else if Vehicle.year &gt; 2015 then 10 else if Vehicle.year &gt; 2010 then 20 else 35)
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_financial_stability_score" name="Financial Stability Score">
+    <dmn:extensionElements/>
+    <dmn:variable id="_financial_stability_score_variable" name="Financial Stability Score" typeRef="number"/>
+    <dmn:informationRequirement id="_4F09B8AE-ADFE-4480-B62E-E3D9B50840FF">
+      <dmn:requiredInput href="#_person_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_financial_stability_expression">
+      <dmn:text>
+        if Person.creditScore &gt;= 800 and Person.annualIncome &gt;= 100000 then 10
+        else if Person.creditScore &gt;= 750 and Person.annualIncome &gt;= 75000 then 20
+        else if Person.creditScore &gt;= 700 and Person.annualIncome &gt;= 50000 then 30
+        else if Person.creditScore &gt;= 650 and Person.annualIncome &gt;= 40000 then 40
+        else if Person.creditScore &gt;= 600 and Person.annualIncome &gt;= 30000 then 60
+        else if Person.creditScore &gt;= 550 and Person.annualIncome &gt;= 25000 then 80
+        else 100
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_coverage_risk_adjustment" name="Coverage Risk Adjustment">
+    <dmn:extensionElements/>
+    <dmn:variable id="_coverage_risk_adjustment_variable" name="Coverage Risk Adjustment" typeRef="number"/>
+    <dmn:informationRequirement id="_98D25AEF-5E83-4C32-ABD8-6271659F3009">
+      <dmn:requiredInput href="#_coverage_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_coverage_risk_adjustment_expression">
+      <dmn:text>
+        (if Coverage.comprehensive then -5 else 10) +
+        (if Coverage.collision then -5 else 15) +
+        (if Coverage.deductible &gt;= 1000 then -10 else if Coverage.deductible &gt;= 500 then -5 else 5) +
+        (if Coverage.liability &gt;= 500000 then -5 else if Coverage.liability &gt;= 100000 then 0 else 10)
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_final_risk_assessment" name="Final Risk Assessment">
+    <dmn:extensionElements/>
+    <dmn:variable id="_final_risk_assessment_variable" name="Final Risk Assessment" typeRef="string"/>
+    <dmn:informationRequirement id="_816BB536-19F4-43D7-BA71-14A225A2C310">
+      <dmn:requiredDecision href="#_driver_risk_score"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_4A1BD129-2324-4309-A5C2-0550270308DF">
+      <dmn:requiredDecision href="#_vehicle_risk_score"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_94F8BD1B-2566-40A8-B5A5-E92F91538F93">
+      <dmn:requiredDecision href="#_financial_stability_score"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_66F6C36E-6F16-42B8-B057-5B8D583AE4F5">
+      <dmn:requiredDecision href="#_coverage_risk_adjustment"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_final_risk_assessment_expression">
+      <dmn:text>
+        if ((Driver Risk Score + Vehicle Risk Score + Financial Stability Score + Coverage Risk Adjustment) / 4) &lt;= 25 then "LOW_RISK"
+        else if ((Driver Risk Score + Vehicle Risk Score + Financial Stability Score + Coverage Risk Adjustment) / 4) &lt;= 50 then "MEDIUM_RISK"
+        else if ((Driver Risk Score + Vehicle Risk Score + Financial Stability Score + Coverage Risk Adjustment) / 4) &lt;= 75 then "HIGH_RISK"
+        else "VERY_HIGH_RISK"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_premium_calculation" name="Premium Calculation">
+    <dmn:extensionElements/>
+    <dmn:variable id="_premium_calculation_variable" name="Premium Calculation" typeRef="number"/>
+    <dmn:informationRequirement id="_A599FD27-4911-4D09-8984-81921396CD59">
+      <dmn:requiredDecision href="#_final_risk_assessment"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_AFB4194F-86D0-4503-BB94-48B06D261D6C">
+      <dmn:requiredInput href="#_vehicle_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_1F6B44EC-4E1A-493F-A938-06ABD06ACE7D">
+      <dmn:requiredInput href="#_coverage_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_premium_calculation_expression">
+      <dmn:text>
+        (if Final Risk Assessment = "LOW_RISK" then 800
+         else if Final Risk Assessment = "MEDIUM_RISK" then 1200
+         else if Final Risk Assessment = "HIGH_RISK" then 1800
+         else 2500) +
+        (Vehicle.value * 0.01) +
+        (if Coverage.comprehensive then 200 else 0) +
+        (if Coverage.collision then 150 else 0) +
+        (Coverage.liability / 5000)
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_B77A1E3E-10C1-43A3-95EF-60C74D2DE079" name="DRG">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_driver_risk_score_table"/>
+          <kie:ComponentWidths dmnElementRef="_vehicle_risk_score_expression"/>
+          <kie:ComponentWidths dmnElementRef="_financial_stability_expression"/>
+          <kie:ComponentWidths dmnElementRef="_coverage_risk_adjustment_expression"/>
+          <kie:ComponentWidths dmnElementRef="_final_risk_assessment_expression"/>
+          <kie:ComponentWidths dmnElementRef="_premium_calculation_expression"/>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="dmnshape-drg-_insurance_risk_assessment_service" dmnElementRef="_insurance_risk_assessment_service" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="312" y="50" width="740" height="200"/>
+        <dmndi:DMNLabel/>
+        <dmndi:DMNDecisionServiceDividerLine>
+          <di:waypoint x="312" y="150"/>
+          <di:waypoint x="1052" y="150"/>
+        </dmndi:DMNDecisionServiceDividerLine>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_person_input" dmnElementRef="_person_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="50" y="375" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_vehicle_input" dmnElementRef="_vehicle_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="225" y="375" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_driving_history_input" dmnElementRef="_driving_history_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="400" y="375" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_coverage_input" dmnElementRef="_coverage_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="575" y="375" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_driver_risk_score" dmnElementRef="_driver_risk_score" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="332" y="170" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_vehicle_risk_score" dmnElementRef="_vehicle_risk_score" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="452" y="170" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_financial_stability_score" dmnElementRef="_financial_stability_score" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="572" y="170" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_coverage_risk_adjustment" dmnElementRef="_coverage_risk_adjustment" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="692" y="170" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_final_risk_assessment" dmnElementRef="_final_risk_assessment" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="812" y="90" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_premium_calculation" dmnElementRef="_premium_calculation" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="932" y="90" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnedge-drg-_1881DF08-5C81-4DC6-B7BE-FAD5944BC0A5" dmnElementRef="_1881DF08-5C81-4DC6-B7BE-FAD5944BC0A5">
+        <di:waypoint x="100" y="400"/>
+        <di:waypoint x="382" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_168179BE-F842-427E-B5D2-6257DE4D3B49" dmnElementRef="_168179BE-F842-427E-B5D2-6257DE4D3B49">
+        <di:waypoint x="450" y="400"/>
+        <di:waypoint x="382" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_E69E5858-A024-487B-B586-629A5291E126" dmnElementRef="_E69E5858-A024-487B-B586-629A5291E126">
+        <di:waypoint x="275" y="400"/>
+        <di:waypoint x="502" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_4F09B8AE-ADFE-4480-B62E-E3D9B50840FF" dmnElementRef="_4F09B8AE-ADFE-4480-B62E-E3D9B50840FF">
+        <di:waypoint x="100" y="400"/>
+        <di:waypoint x="622" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_98D25AEF-5E83-4C32-ABD8-6271659F3009" dmnElementRef="_98D25AEF-5E83-4C32-ABD8-6271659F3009">
+        <di:waypoint x="625" y="400"/>
+        <di:waypoint x="742" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_816BB536-19F4-43D7-BA71-14A225A2C310" dmnElementRef="_816BB536-19F4-43D7-BA71-14A225A2C310">
+        <di:waypoint x="382" y="195"/>
+        <di:waypoint x="862" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_4A1BD129-2324-4309-A5C2-0550270308DF" dmnElementRef="_4A1BD129-2324-4309-A5C2-0550270308DF">
+        <di:waypoint x="502" y="195"/>
+        <di:waypoint x="862" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_94F8BD1B-2566-40A8-B5A5-E92F91538F93" dmnElementRef="_94F8BD1B-2566-40A8-B5A5-E92F91538F93">
+        <di:waypoint x="622" y="195"/>
+        <di:waypoint x="862" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_66F6C36E-6F16-42B8-B057-5B8D583AE4F5" dmnElementRef="_66F6C36E-6F16-42B8-B057-5B8D583AE4F5">
+        <di:waypoint x="742" y="195"/>
+        <di:waypoint x="862" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_A599FD27-4911-4D09-8984-81921396CD59" dmnElementRef="_A599FD27-4911-4D09-8984-81921396CD59">
+        <di:waypoint x="862" y="115"/>
+        <di:waypoint x="982" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_AFB4194F-86D0-4503-BB94-48B06D261D6C" dmnElementRef="_AFB4194F-86D0-4503-BB94-48B06D261D6C">
+        <di:waypoint x="275" y="400"/>
+        <di:waypoint x="982" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_1F6B44EC-4E1A-493F-A938-06ABD06ACE7D" dmnElementRef="_1F6B44EC-4E1A-493F-A938-06ABD06ACE7D">
+        <di:waypoint x="625" y="400"/>
+        <di:waypoint x="982" y="115"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>

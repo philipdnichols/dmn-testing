@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://example.com/dmn/supply-chain" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_supply_chain_optimization" name="Supply Chain Optimization" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://example.com/dmn/supply-chain">
+  <dmn:extensionElements/>
+  <dmn:itemDefinition id="_product" name="Product" isCollection="false">
+    <dmn:itemComponent id="_product_id" name="id" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_product_category" name="category" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_product_weight" name="weight" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_product_volume" name="volume" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_product_value" name="value" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_product_fragility" name="fragility" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_product_temperature_sensitive" name="temperatureSensitive" isCollection="false">
+      <dmn:typeRef>boolean</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_order" name="Order" isCollection="false">
+    <dmn:itemComponent id="_order_id" name="id" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_order_quantity" name="quantity" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_order_priority" name="priority" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_order_deadline" name="deadline" isCollection="false">
+      <dmn:typeRef>date</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_order_destination" name="destination" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_order_customer_tier" name="customerTier" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_supplier" name="Supplier" isCollection="false">
+    <dmn:itemComponent id="_supplier_id" name="id" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_supplier_location" name="location" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_supplier_reliability_score" name="reliabilityScore" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_supplier_cost_per_unit" name="costPerUnit" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_supplier_lead_time" name="leadTime" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_supplier_capacity" name="capacity" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_supplier_quality_rating" name="qualityRating" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_warehouse" name="Warehouse" isCollection="false">
+    <dmn:itemComponent id="_warehouse_id" name="id" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_warehouse_location" name="location" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_warehouse_current_inventory" name="currentInventory" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_warehouse_max_capacity" name="maxCapacity" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_warehouse_operating_cost" name="operatingCost" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_warehouse_processing_time" name="processingTime" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_warehouse_temperature_controlled" name="temperatureControlled" isCollection="false">
+      <dmn:typeRef>boolean</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_transport_route" name="TransportRoute" isCollection="false">
+    <dmn:itemComponent id="_route_id" name="id" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_route_from" name="from" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_route_to" name="to" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_route_distance" name="distance" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_route_cost_per_km" name="costPerKm" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_route_transit_time" name="transitTime" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_route_risk_factor" name="riskFactor" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:decisionService id="_supply_chain_optimization_service" name="Supply Chain Optimization Service">
+    <dmn:extensionElements/>
+    <dmn:variable id="_supply_chain_optimization_service_variable" name="Supply Chain Optimization Service"/>
+    <dmn:outputDecision href="#_optimal_fulfillment_strategy"/>
+    <dmn:outputDecision href="#_total_cost_estimation"/>
+    <dmn:outputDecision href="#_delivery_timeline"/>
+    <dmn:encapsulatedDecision href="#_supplier_selection"/>
+    <dmn:encapsulatedDecision href="#_warehouse_allocation"/>
+    <dmn:encapsulatedDecision href="#_transportation_routing"/>
+    <dmn:encapsulatedDecision href="#_inventory_adequacy"/>
+    <dmn:encapsulatedDecision href="#_risk_assessment"/>
+    <dmn:encapsulatedDecision href="#_priority_score"/>
+    <dmn:inputData href="#_product_input"/>
+    <dmn:inputData href="#_order_input"/>
+    <dmn:inputData href="#_supplier_input"/>
+    <dmn:inputData href="#_warehouse_input"/>
+    <dmn:inputData href="#_transport_route_input"/>
+  </dmn:decisionService>
+  <dmn:inputData id="_product_input" name="Product">
+    <dmn:extensionElements/>
+    <dmn:variable id="_product_variable" name="Product" typeRef="Product"/>
+  </dmn:inputData>
+  <dmn:inputData id="_order_input" name="Order">
+    <dmn:extensionElements/>
+    <dmn:variable id="_order_variable" name="Order" typeRef="Order"/>
+  </dmn:inputData>
+  <dmn:inputData id="_supplier_input" name="Supplier">
+    <dmn:extensionElements/>
+    <dmn:variable id="_supplier_variable" name="Supplier" typeRef="Supplier"/>
+  </dmn:inputData>
+  <dmn:inputData id="_warehouse_input" name="Warehouse">
+    <dmn:extensionElements/>
+    <dmn:variable id="_warehouse_variable" name="Warehouse" typeRef="Warehouse"/>
+  </dmn:inputData>
+  <dmn:inputData id="_transport_route_input" name="TransportRoute">
+    <dmn:extensionElements/>
+    <dmn:variable id="_transport_route_variable" name="TransportRoute" typeRef="TransportRoute"/>
+  </dmn:inputData>
+  <dmn:decision id="_priority_score" name="Priority Score">
+    <dmn:extensionElements/>
+    <dmn:variable id="_priority_score_variable" name="Priority Score" typeRef="number"/>
+    <dmn:informationRequirement id="_6884EB71-78AF-43E9-B506-75A8876686EF">
+      <dmn:requiredInput href="#_order_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_C50C4605-83DC-43DB-9A00-2E37AB47BA0E">
+      <dmn:requiredInput href="#_product_input"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_priority_score_table" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_priority_input">
+        <dmn:inputExpression id="_priority_expression" typeRef="string">
+          <dmn:text>Order.priority</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_customer_tier_input">
+        <dmn:inputExpression id="_customer_tier_expression" typeRef="string">
+          <dmn:text>Order.customerTier</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_product_value_input">
+        <dmn:inputExpression id="_product_value_expression" typeRef="number">
+          <dmn:text>Product.value</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_product_category_input">
+        <dmn:inputExpression id="_product_category_expression" typeRef="string">
+          <dmn:text>Product.category</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_priority_score_output">
+        <dmn:outputValues id="_priority_score_output_values">
+          <dmn:text>10,20,30,40,50,60,70,80,90,100</dmn:text>
+        </dmn:outputValues>
+      </dmn:output>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_priority_rule_1">
+        <dmn:inputEntry id="_priority_entry_1">
+          <dmn:text>"CRITICAL"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_customer_tier_entry_1">
+          <dmn:text>"PLATINUM"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_product_value_entry_1">
+          <dmn:text>&gt; 10000</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_product_category_entry_1">
+          <dmn:text>"MEDICAL"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_priority_score_output_1">
+          <dmn:text>100</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Maximum priority: Critical medical equipment for platinum customer</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_priority_rule_2">
+        <dmn:inputEntry id="_priority_entry_2">
+          <dmn:text>"CRITICAL"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_customer_tier_entry_2">
+          <dmn:text>"GOLD","PLATINUM"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_product_value_entry_2">
+          <dmn:text>[5000..10000]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_product_category_entry_2">
+          <dmn:text>not("MEDICAL")</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_priority_score_output_2">
+          <dmn:text>90</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Very high priority: Critical order, premium customer, non-medical</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_priority_rule_3">
+        <dmn:inputEntry id="_priority_entry_3">
+          <dmn:text>"HIGH"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_customer_tier_entry_3">
+          <dmn:text>"GOLD","PLATINUM"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_product_value_entry_3">
+          <dmn:text>&gt; 1000</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_product_category_entry_3">
+          <dmn:text>"ELECTRONICS","MEDICAL"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_priority_score_output_3">
+          <dmn:text>70</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>High priority: Important products for premium customers</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_priority_rule_4">
+        <dmn:inputEntry id="_priority_entry_4">
+          <dmn:text>"MEDIUM"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_customer_tier_entry_4">
+          <dmn:text>"SILVER","GOLD"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_product_value_entry_4">
+          <dmn:text>&gt; 500</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_product_category_entry_4">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_priority_score_output_4">
+          <dmn:text>50</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Medium priority: Standard valuable orders</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_priority_rule_5">
+        <dmn:inputEntry id="_priority_entry_5">
+          <dmn:text>"LOW"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_customer_tier_entry_5">
+          <dmn:text>"BRONZE","SILVER"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_product_value_entry_5">
+          <dmn:text>&lt;= 500</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_product_category_entry_5">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_priority_score_output_5">
+          <dmn:text>20</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Low priority: Standard low-value orders</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="_supplier_selection" name="Supplier Selection">
+    <dmn:extensionElements/>
+    <dmn:variable id="_supplier_selection_variable" name="Supplier Selection" typeRef="string"/>
+    <dmn:informationRequirement id="_B77ADCE1-1871-4DA2-9989-AFB518AECEFE">
+      <dmn:requiredInput href="#_supplier_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_34E370C7-1C8C-4D81-9865-05A2AFDE46B5">
+      <dmn:requiredDecision href="#_priority_score"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_3D358BBA-208C-444A-B6AA-C2AF5A157A2B">
+      <dmn:requiredInput href="#_order_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_supplier_selection_expression">
+      <dmn:text>
+        if Supplier.reliabilityScore &gt;= 9.0 and Supplier.qualityRating &gt;= 9.0 and Supplier.capacity &gt;= Order.quantity and Priority Score &gt;= 80 then "PREMIUM_SUPPLIER"
+        else if Supplier.reliabilityScore &gt;= 8.0 and Supplier.qualityRating &gt;= 8.0 and Supplier.capacity &gt;= Order.quantity and Priority Score &gt;= 60 then "PREFERRED_SUPPLIER"
+        else if Supplier.reliabilityScore &gt;= 7.0 and Supplier.capacity &gt;= Order.quantity and Supplier.leadTime &lt;= 14 then "STANDARD_SUPPLIER"
+        else if Supplier.capacity &gt;= (Order.quantity * 0.8) and Supplier.costPerUnit &lt;= 100 then "BACKUP_SUPPLIER"
+        else "UNSUITABLE"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_warehouse_allocation" name="Warehouse Allocation">
+    <dmn:extensionElements/>
+    <dmn:variable id="_warehouse_allocation_variable" name="Warehouse Allocation" typeRef="string"/>
+    <dmn:informationRequirement id="_60E22369-9127-4E45-98FB-CD0EE7506305">
+      <dmn:requiredInput href="#_warehouse_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_66824B11-FFEB-45F4-89C9-E826B545E32E">
+      <dmn:requiredInput href="#_product_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_1D3F31BD-0511-4244-82AE-DECCF6D2B3F2">
+      <dmn:requiredInput href="#_order_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_warehouse_allocation_expression">
+      <dmn:text>
+        if Product.temperatureSensitive and not(Warehouse.temperatureControlled) then "INCOMPATIBLE"
+        else if Warehouse.currentInventory &gt;= Order.quantity and Warehouse.processingTime &lt;= 24 then "IMMEDIATE_FULFILLMENT"
+        else if Warehouse.currentInventory &gt;= (Order.quantity * 0.5) and Warehouse.processingTime &lt;= 48 then "PARTIAL_FULFILLMENT"
+        else if (Warehouse.maxCapacity - Warehouse.currentInventory) &gt;= Order.quantity then "RESTOCK_REQUIRED"
+        else "CAPACITY_EXCEEDED"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_inventory_adequacy" name="Inventory Adequacy">
+    <dmn:extensionElements/>
+    <dmn:variable id="_inventory_adequacy_variable" name="Inventory Adequacy" typeRef="string"/>
+    <dmn:informationRequirement id="_6F58B95D-D9AF-46BC-823C-8980CE4687A9">
+      <dmn:requiredInput href="#_warehouse_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_7CB9A063-9B84-4FF7-BB53-5AF9374D6B8C">
+      <dmn:requiredInput href="#_order_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_inventory_adequacy_expression">
+      <dmn:text>
+        if Warehouse.currentInventory &gt;= (Order.quantity * 2) then "ABUNDANT"
+        else if Warehouse.currentInventory &gt;= Order.quantity then "ADEQUATE"
+        else if Warehouse.currentInventory &gt;= (Order.quantity * 0.5) then "INSUFFICIENT"
+        else "CRITICAL_SHORTAGE"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_transportation_routing" name="Transportation Routing">
+    <dmn:extensionElements/>
+    <dmn:variable id="_transportation_routing_variable" name="Transportation Routing" typeRef="string"/>
+    <dmn:informationRequirement id="_54442C28-CC55-44B7-A0FF-CE35C9015EEF">
+      <dmn:requiredInput href="#_transport_route_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_F7016D0B-AA1A-4736-ADB2-2DCEC0AD88AE">
+      <dmn:requiredDecision href="#_priority_score"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_transportation_routing_expression">
+      <dmn:text>
+        if TransportRoute.riskFactor &lt;= 2 and TransportRoute.transitTime &lt;= 24 and Priority Score &gt;= 80 then "EXPRESS"
+        else if TransportRoute.riskFactor &lt;= 3 and TransportRoute.transitTime &lt;= 48 and Priority Score &gt;= 60 then "PRIORITY"
+        else if TransportRoute.riskFactor &lt;= 5 and TransportRoute.transitTime &lt;= 120 then "STANDARD"
+        else if TransportRoute.riskFactor &lt;= 7 and Priority Score &lt; 40 then "ECONOMY"
+        else "UNSUITABLE"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_risk_assessment" name="Risk Assessment">
+    <dmn:extensionElements/>
+    <dmn:variable id="_risk_assessment_variable" name="Risk Assessment" typeRef="number"/>
+    <dmn:informationRequirement id="_EDED7FD5-DF37-4233-8CFD-06CD2E23867F">
+      <dmn:requiredInput href="#_supplier_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_BB1082F5-19CD-472D-8A83-65E555F11CA4">
+      <dmn:requiredInput href="#_transport_route_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_3A6088B7-287D-47E9-A159-C8725AF0AA58">
+      <dmn:requiredInput href="#_product_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_risk_assessment_expression">
+      <dmn:text>
+        (10 - Supplier.reliabilityScore) * 10 +
+        TransportRoute.riskFactor * 5 +
+        (if Product.fragility = "HIGH" then 20 else if Product.fragility = "MEDIUM" then 10 else 0) +
+        (if Product.temperatureSensitive then 15 else 0) +
+        (if Supplier.leadTime &gt; 30 then 25 else if Supplier.leadTime &gt; 14 then 10 else 0)
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_total_cost_estimation" name="Total Cost Estimation">
+    <dmn:extensionElements/>
+    <dmn:variable id="_total_cost_estimation_variable" name="Total Cost Estimation" typeRef="number"/>
+    <dmn:informationRequirement id="_20E01A7E-E817-409B-A04F-D3966E99BDC5">
+      <dmn:requiredInput href="#_supplier_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_CE85135D-F7EA-4741-B639-C64A06A827FC">
+      <dmn:requiredInput href="#_warehouse_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_591078F0-6484-4A71-820E-25F05ADCFDC3">
+      <dmn:requiredInput href="#_transport_route_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_F4CBC6DE-DCDF-4593-81CD-B0BD01FA3659">
+      <dmn:requiredInput href="#_order_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_70BAD8F7-BCE3-4BDB-92A7-6D9A92AF9875">
+      <dmn:requiredDecision href="#_transportation_routing"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_total_cost_estimation_expression">
+      <dmn:text>
+        (Supplier.costPerUnit * Order.quantity) +
+        (Warehouse.operatingCost * Warehouse.processingTime / 24) +
+        (TransportRoute.distance * TransportRoute.costPerKm) +
+        (if Transportation Routing = "EXPRESS" then 500
+         else if Transportation Routing = "PRIORITY" then 200
+         else if Transportation Routing = "STANDARD" then 50
+         else 0)
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_delivery_timeline" name="Delivery Timeline">
+    <dmn:extensionElements/>
+    <dmn:variable id="_delivery_timeline_variable" name="Delivery Timeline" typeRef="number"/>
+    <dmn:informationRequirement id="_EE6A89C5-B850-48F7-B1F6-0A6DAEFB2123">
+      <dmn:requiredInput href="#_supplier_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_450CCC55-74E1-47E5-9584-1256F3E49F08">
+      <dmn:requiredInput href="#_warehouse_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_FA652066-97C0-4094-984C-EB348ED2158A">
+      <dmn:requiredInput href="#_transport_route_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_A9182CC1-31C6-406B-89D8-AD64590B834E">
+      <dmn:requiredDecision href="#_transportation_routing"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_3E666B39-2768-4DC5-8819-BB04AB0BDFDD">
+      <dmn:requiredDecision href="#_warehouse_allocation"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_delivery_timeline_expression">
+      <dmn:text>
+        (if Warehouse Allocation = "IMMEDIATE_FULFILLMENT" then 0
+         else if Warehouse Allocation = "PARTIAL_FULFILLMENT" then Supplier.leadTime / 2
+         else Supplier.leadTime) +
+        Warehouse.processingTime +
+        (if Transportation Routing = "EXPRESS" then TransportRoute.transitTime * 0.5
+         else if Transportation Routing = "PRIORITY" then TransportRoute.transitTime * 0.75
+         else TransportRoute.transitTime)
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_optimal_fulfillment_strategy" name="Optimal Fulfillment Strategy">
+    <dmn:extensionElements/>
+    <dmn:variable id="_optimal_fulfillment_strategy_variable" name="Optimal Fulfillment Strategy" typeRef="string"/>
+    <dmn:informationRequirement id="_DCFAC68E-27CD-4634-AF3F-702DE6311726">
+      <dmn:requiredDecision href="#_supplier_selection"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_F7D3CFDC-A1FC-43CC-A268-A74049D0F952">
+      <dmn:requiredDecision href="#_warehouse_allocation"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_85DFE24E-0741-4786-AFC6-3403A3A59218">
+      <dmn:requiredDecision href="#_transportation_routing"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_7C299473-C153-4165-AFD3-182597420F9B">
+      <dmn:requiredDecision href="#_risk_assessment"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_8865C150-A887-416D-BF9E-58B07BED60A0">
+      <dmn:requiredDecision href="#_inventory_adequacy"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_241CF872-40A0-4CCA-B5C7-B5ACA93DAF2E">
+      <dmn:requiredDecision href="#_priority_score"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_optimal_fulfillment_strategy_expression">
+      <dmn:text>
+        if Supplier Selection = "UNSUITABLE" or Warehouse Allocation = "INCOMPATIBLE" or Transportation Routing = "UNSUITABLE" then "CANNOT_FULFILL"
+        else if Risk Assessment &gt; 70 or Inventory Adequacy = "CRITICAL_SHORTAGE" then "HIGH_RISK_PROCEED_WITH_CAUTION"
+        else if Supplier Selection = "PREMIUM_SUPPLIER" and Warehouse Allocation = "IMMEDIATE_FULFILLMENT" and Transportation Routing = "EXPRESS" and Priority Score &gt;= 80 then "PROCEED_IMMEDIATELY"
+        else if Supplier Selection = "PREFERRED_SUPPLIER" and Warehouse Allocation = "IMMEDIATE_FULFILLMENT" and Transportation Routing = "PRIORITY" and Priority Score &gt;= 60 then "PROCEED_WITH_MONITORING"
+        else if Risk Assessment &lt;= 40 and Inventory Adequacy = "ADEQUATE" and Priority Score &gt;= 40 then "PROCEED_STANDARD"
+        else if Supplier Selection = "BACKUP_SUPPLIER" or Warehouse Allocation = "PARTIAL_FULFILLMENT" then "PROCEED_WITH_DELAYS"
+        else "DEFER_AND_OPTIMIZE"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_2E1A50FC-6C21-408C-B669-70F818D03C1C" name="DRG">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_priority_score_table"/>
+          <kie:ComponentWidths dmnElementRef="_supplier_selection_expression"/>
+          <kie:ComponentWidths dmnElementRef="_warehouse_allocation_expression"/>
+          <kie:ComponentWidths dmnElementRef="_inventory_adequacy_expression"/>
+          <kie:ComponentWidths dmnElementRef="_transportation_routing_expression"/>
+          <kie:ComponentWidths dmnElementRef="_risk_assessment_expression"/>
+          <kie:ComponentWidths dmnElementRef="_total_cost_estimation_expression"/>
+          <kie:ComponentWidths dmnElementRef="_delivery_timeline_expression"/>
+          <kie:ComponentWidths dmnElementRef="_optimal_fulfillment_strategy_expression"/>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="dmnshape-drg-_supply_chain_optimization_service" dmnElementRef="_supply_chain_optimization_service" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="400" y="50" width="1100" height="200"/>
+        <dmndi:DMNLabel/>
+        <dmndi:DMNDecisionServiceDividerLine>
+          <di:waypoint x="400" y="150"/>
+          <di:waypoint x="1500" y="150"/>
+        </dmndi:DMNDecisionServiceDividerLine>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_product_input" dmnElementRef="_product_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="50" y="375" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_order_input" dmnElementRef="_order_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="225" y="375" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_supplier_input" dmnElementRef="_supplier_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="400" y="375" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_warehouse_input" dmnElementRef="_warehouse_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="575" y="375" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_transport_route_input" dmnElementRef="_transport_route_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="750" y="375" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_priority_score" dmnElementRef="_priority_score" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="420" y="170" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_supplier_selection" dmnElementRef="_supplier_selection" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="540" y="170" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_warehouse_allocation" dmnElementRef="_warehouse_allocation" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="660" y="170" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_inventory_adequacy" dmnElementRef="_inventory_adequacy" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="780" y="170" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_transportation_routing" dmnElementRef="_transportation_routing" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="900" y="170" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_risk_assessment" dmnElementRef="_risk_assessment" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="1020" y="170" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_total_cost_estimation" dmnElementRef="_total_cost_estimation" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="1140" y="90" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_delivery_timeline" dmnElementRef="_delivery_timeline" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="1260" y="90" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_optimal_fulfillment_strategy" dmnElementRef="_optimal_fulfillment_strategy" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="1380" y="90" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnedge-drg-_6884EB71-78AF-43E9-B506-75A8876686EF" dmnElementRef="_6884EB71-78AF-43E9-B506-75A8876686EF">
+        <di:waypoint x="275" y="400"/>
+        <di:waypoint x="470" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_C50C4605-83DC-43DB-9A00-2E37AB47BA0E" dmnElementRef="_C50C4605-83DC-43DB-9A00-2E37AB47BA0E">
+        <di:waypoint x="100" y="400"/>
+        <di:waypoint x="470" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_B77ADCE1-1871-4DA2-9989-AFB518AECEFE" dmnElementRef="_B77ADCE1-1871-4DA2-9989-AFB518AECEFE">
+        <di:waypoint x="450" y="400"/>
+        <di:waypoint x="590" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_34E370C7-1C8C-4D81-9865-05A2AFDE46B5" dmnElementRef="_34E370C7-1C8C-4D81-9865-05A2AFDE46B5">
+        <di:waypoint x="470" y="195"/>
+        <di:waypoint x="590" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_3D358BBA-208C-444A-B6AA-C2AF5A157A2B" dmnElementRef="_3D358BBA-208C-444A-B6AA-C2AF5A157A2B">
+        <di:waypoint x="275" y="400"/>
+        <di:waypoint x="590" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_60E22369-9127-4E45-98FB-CD0EE7506305" dmnElementRef="_60E22369-9127-4E45-98FB-CD0EE7506305">
+        <di:waypoint x="625" y="400"/>
+        <di:waypoint x="710" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_66824B11-FFEB-45F4-89C9-E826B545E32E" dmnElementRef="_66824B11-FFEB-45F4-89C9-E826B545E32E">
+        <di:waypoint x="100" y="400"/>
+        <di:waypoint x="710" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_1D3F31BD-0511-4244-82AE-DECCF6D2B3F2" dmnElementRef="_1D3F31BD-0511-4244-82AE-DECCF6D2B3F2">
+        <di:waypoint x="275" y="400"/>
+        <di:waypoint x="710" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_6F58B95D-D9AF-46BC-823C-8980CE4687A9" dmnElementRef="_6F58B95D-D9AF-46BC-823C-8980CE4687A9">
+        <di:waypoint x="625" y="400"/>
+        <di:waypoint x="830" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_7CB9A063-9B84-4FF7-BB53-5AF9374D6B8C" dmnElementRef="_7CB9A063-9B84-4FF7-BB53-5AF9374D6B8C">
+        <di:waypoint x="275" y="400"/>
+        <di:waypoint x="830" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_54442C28-CC55-44B7-A0FF-CE35C9015EEF" dmnElementRef="_54442C28-CC55-44B7-A0FF-CE35C9015EEF">
+        <di:waypoint x="800" y="400"/>
+        <di:waypoint x="950" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_F7016D0B-AA1A-4736-ADB2-2DCEC0AD88AE" dmnElementRef="_F7016D0B-AA1A-4736-ADB2-2DCEC0AD88AE">
+        <di:waypoint x="470" y="195"/>
+        <di:waypoint x="950" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_EDED7FD5-DF37-4233-8CFD-06CD2E23867F" dmnElementRef="_EDED7FD5-DF37-4233-8CFD-06CD2E23867F">
+        <di:waypoint x="450" y="400"/>
+        <di:waypoint x="1070" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_BB1082F5-19CD-472D-8A83-65E555F11CA4" dmnElementRef="_BB1082F5-19CD-472D-8A83-65E555F11CA4">
+        <di:waypoint x="800" y="400"/>
+        <di:waypoint x="1070" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_3A6088B7-287D-47E9-A159-C8725AF0AA58" dmnElementRef="_3A6088B7-287D-47E9-A159-C8725AF0AA58">
+        <di:waypoint x="100" y="400"/>
+        <di:waypoint x="1070" y="195"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_20E01A7E-E817-409B-A04F-D3966E99BDC5" dmnElementRef="_20E01A7E-E817-409B-A04F-D3966E99BDC5">
+        <di:waypoint x="450" y="400"/>
+        <di:waypoint x="1190" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_CE85135D-F7EA-4741-B639-C64A06A827FC" dmnElementRef="_CE85135D-F7EA-4741-B639-C64A06A827FC">
+        <di:waypoint x="625" y="400"/>
+        <di:waypoint x="1190" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_591078F0-6484-4A71-820E-25F05ADCFDC3" dmnElementRef="_591078F0-6484-4A71-820E-25F05ADCFDC3">
+        <di:waypoint x="800" y="400"/>
+        <di:waypoint x="1190" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_F4CBC6DE-DCDF-4593-81CD-B0BD01FA3659" dmnElementRef="_F4CBC6DE-DCDF-4593-81CD-B0BD01FA3659">
+        <di:waypoint x="275" y="400"/>
+        <di:waypoint x="1190" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_70BAD8F7-BCE3-4BDB-92A7-6D9A92AF9875" dmnElementRef="_70BAD8F7-BCE3-4BDB-92A7-6D9A92AF9875">
+        <di:waypoint x="950" y="195"/>
+        <di:waypoint x="1190" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_EE6A89C5-B850-48F7-B1F6-0A6DAEFB2123" dmnElementRef="_EE6A89C5-B850-48F7-B1F6-0A6DAEFB2123">
+        <di:waypoint x="450" y="400"/>
+        <di:waypoint x="1310" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_450CCC55-74E1-47E5-9584-1256F3E49F08" dmnElementRef="_450CCC55-74E1-47E5-9584-1256F3E49F08">
+        <di:waypoint x="625" y="400"/>
+        <di:waypoint x="1310" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_FA652066-97C0-4094-984C-EB348ED2158A" dmnElementRef="_FA652066-97C0-4094-984C-EB348ED2158A">
+        <di:waypoint x="800" y="400"/>
+        <di:waypoint x="1310" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_A9182CC1-31C6-406B-89D8-AD64590B834E" dmnElementRef="_A9182CC1-31C6-406B-89D8-AD64590B834E">
+        <di:waypoint x="950" y="195"/>
+        <di:waypoint x="1310" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_3E666B39-2768-4DC5-8819-BB04AB0BDFDD" dmnElementRef="_3E666B39-2768-4DC5-8819-BB04AB0BDFDD">
+        <di:waypoint x="710" y="195"/>
+        <di:waypoint x="1310" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_DCFAC68E-27CD-4634-AF3F-702DE6311726" dmnElementRef="_DCFAC68E-27CD-4634-AF3F-702DE6311726">
+        <di:waypoint x="590" y="195"/>
+        <di:waypoint x="1430" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_F7D3CFDC-A1FC-43CC-A268-A74049D0F952" dmnElementRef="_F7D3CFDC-A1FC-43CC-A268-A74049D0F952">
+        <di:waypoint x="710" y="195"/>
+        <di:waypoint x="1430" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_85DFE24E-0741-4786-AFC6-3403A3A59218" dmnElementRef="_85DFE24E-0741-4786-AFC6-3403A3A59218">
+        <di:waypoint x="950" y="195"/>
+        <di:waypoint x="1430" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_7C299473-C153-4165-AFD3-182597420F9B" dmnElementRef="_7C299473-C153-4165-AFD3-182597420F9B">
+        <di:waypoint x="1070" y="195"/>
+        <di:waypoint x="1430" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_8865C150-A887-416D-BF9E-58B07BED60A0" dmnElementRef="_8865C150-A887-416D-BF9E-58B07BED60A0">
+        <di:waypoint x="830" y="195"/>
+        <di:waypoint x="1430" y="115"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_241CF872-40A0-4CCA-B5C7-B5ACA93DAF2E" dmnElementRef="_241CF872-40A0-4CCA-B5C7-B5ACA93DAF2E">
+        <di:waypoint x="470" y="195"/>
+        <di:waypoint x="1430" y="115"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>

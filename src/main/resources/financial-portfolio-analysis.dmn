@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://example.com/dmn/financial" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_financial_portfolio_analysis" name="Financial Portfolio Analysis" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://example.com/dmn/financial">
+  <dmn:extensionElements/>
+  <dmn:itemDefinition id="_investor_profile" name="InvestorProfile" isCollection="false">
+    <dmn:itemComponent id="_investor_age" name="age" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_investor_annual_income" name="annualIncome" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_investor_net_worth" name="netWorth" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_investor_risk_tolerance" name="riskTolerance" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_investor_investment_experience" name="investmentExperience" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_investor_liquidity_needs" name="liquidityNeeds" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_investor_knowledge_level" name="knowledgeLevel" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_market_conditions" name="MarketConditions" isCollection="false">
+    <dmn:itemComponent id="_market_volatility_index" name="volatilityIndex" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_market_trend" name="marketTrend" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_interest_rates" name="interestRates" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_inflation_rate" name="inflationRate" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_economic_outlook" name="economicOutlook" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_sector_performance" name="sectorPerformance" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_investment_goals" name="InvestmentGoals" isCollection="false">
+    <dmn:itemComponent id="_primary_objective" name="primaryObjective" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_target_return" name="targetReturn" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_max_drawdown" name="maxDrawdown" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_investment_horizon" name="investmentHorizon" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_income_priority" name="incomePriority" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_growth_priority" name="growthPriority" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_current_portfolio" name="CurrentPortfolio" isCollection="false">
+    <dmn:itemComponent id="_total_value" name="totalValue" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_equity_allocation" name="equityAllocation" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_bond_allocation" name="bondAllocation" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_cash_allocation" name="cashAllocation" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_alternative_allocation" name="alternativeAllocation" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_sector_concentration" name="sectorConcentration" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_geographic_concentration" name="geographicConcentration" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:decisionService id="_portfolio_analysis_service" name="Portfolio Analysis Service">
+    <dmn:extensionElements/>
+    <dmn:variable id="_portfolio_analysis_service_variable" name="Portfolio Analysis Service"/>
+    <dmn:outputDecision href="#_rebalancing_recommendation"/>
+    <dmn:outputDecision href="#_expected_performance"/>
+    <dmn:encapsulatedDecision href="#_risk_profile_assessment"/>
+    <dmn:encapsulatedDecision href="#_market_timing_analysis"/>
+    <dmn:encapsulatedDecision href="#_diversification_score"/>
+    <dmn:encapsulatedDecision href="#_asset_allocation_recommendation"/>
+    <dmn:encapsulatedDecision href="#_performance_projection"/>
+    <dmn:inputData href="#_investor_profile_input"/>
+    <dmn:inputData href="#_market_conditions_input"/>
+    <dmn:inputData href="#_investment_goals_input"/>
+    <dmn:inputData href="#_current_portfolio_input"/>
+  </dmn:decisionService>
+  <dmn:inputData id="_investor_profile_input" name="InvestorProfile">
+    <dmn:extensionElements/>
+    <dmn:variable id="_investor_profile_variable" name="InvestorProfile" typeRef="InvestorProfile"/>
+  </dmn:inputData>
+  <dmn:inputData id="_market_conditions_input" name="MarketConditions">
+    <dmn:extensionElements/>
+    <dmn:variable id="_market_conditions_variable" name="MarketConditions" typeRef="MarketConditions"/>
+  </dmn:inputData>
+  <dmn:inputData id="_investment_goals_input" name="InvestmentGoals">
+    <dmn:extensionElements/>
+    <dmn:variable id="_investment_goals_variable" name="InvestmentGoals" typeRef="InvestmentGoals"/>
+  </dmn:inputData>
+  <dmn:inputData id="_current_portfolio_input" name="CurrentPortfolio">
+    <dmn:extensionElements/>
+    <dmn:variable id="_current_portfolio_variable" name="CurrentPortfolio" typeRef="CurrentPortfolio"/>
+  </dmn:inputData>
+  <dmn:decision id="_risk_profile_assessment" name="Risk Profile Assessment">
+    <dmn:extensionElements/>
+    <dmn:variable id="_risk_profile_assessment_variable" name="Risk Profile Assessment" typeRef="string"/>
+    <dmn:informationRequirement id="_5214CE23-256E-46CC-9A8A-85ADBA9AA7D6">
+      <dmn:requiredInput href="#_investor_profile_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_03529A51-5CA7-4AD2-B293-6FD342D1A439">
+      <dmn:requiredInput href="#_investment_goals_input"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_risk_profile_table" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_age_input">
+        <dmn:inputExpression id="_age_expression" typeRef="number">
+          <dmn:text>InvestorProfile.age</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_risk_tolerance_input">
+        <dmn:inputExpression id="_risk_tolerance_expression" typeRef="string">
+          <dmn:text>InvestorProfile.riskTolerance</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_investment_horizon_input">
+        <dmn:inputExpression id="_investment_horizon_expression" typeRef="number">
+          <dmn:text>InvestmentGoals.investmentHorizon</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_net_worth_input">
+        <dmn:inputExpression id="_net_worth_expression" typeRef="number">
+          <dmn:text>InvestorProfile.netWorth</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_knowledge_level_input">
+        <dmn:inputExpression id="_knowledge_level_expression" typeRef="string">
+          <dmn:text>InvestorProfile.knowledgeLevel</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_risk_profile_output">
+        <dmn:outputValues id="_risk_profile_output_values">
+          <dmn:text>"CONSERVATIVE","MODERATE_CONSERVATIVE","MODERATE","MODERATE_AGGRESSIVE","AGGRESSIVE"</dmn:text>
+        </dmn:outputValues>
+      </dmn:output>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_risk_profile_rule_1">
+        <dmn:inputEntry id="_age_entry_1">
+          <dmn:text>&lt; 30</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_risk_tolerance_entry_1">
+          <dmn:text>"HIGH"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_investment_horizon_entry_1">
+          <dmn:text>&gt; 10</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_net_worth_entry_1">
+          <dmn:text>&gt; 1000000</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_knowledge_level_entry_1">
+          <dmn:text>"EXPERT","EXPERIENCED"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_profile_output_1">
+          <dmn:text>"AGGRESSIVE"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Young, wealthy, experienced investor with long horizon</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_risk_profile_rule_2">
+        <dmn:inputEntry id="_age_entry_2">
+          <dmn:text>[30..45)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_risk_tolerance_entry_2">
+          <dmn:text>"HIGH","MEDIUM"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_investment_horizon_entry_2">
+          <dmn:text>&gt; 15</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_net_worth_entry_2">
+          <dmn:text>&gt; 500000</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_knowledge_level_entry_2">
+          <dmn:text>"EXPERIENCED","EXPERT"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_profile_output_2">
+          <dmn:text>"MODERATE_AGGRESSIVE"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Prime earning years with good risk capacity</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_risk_profile_rule_3">
+        <dmn:inputEntry id="_age_entry_3">
+          <dmn:text>[45..60)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_risk_tolerance_entry_3">
+          <dmn:text>"MEDIUM"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_investment_horizon_entry_3">
+          <dmn:text>[10..20]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_net_worth_entry_3">
+          <dmn:text>&gt; 250000</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_knowledge_level_entry_3">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_profile_output_3">
+          <dmn:text>"MODERATE"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Pre-retirement planning phase</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_risk_profile_rule_4">
+        <dmn:inputEntry id="_age_entry_4">
+          <dmn:text>&gt;= 60</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_risk_tolerance_entry_4">
+          <dmn:text>"LOW","MEDIUM"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_investment_horizon_entry_4">
+          <dmn:text>&lt; 10</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_net_worth_entry_4">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_knowledge_level_entry_4">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_profile_output_4">
+          <dmn:text>"MODERATE_CONSERVATIVE"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Approaching or in retirement</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_risk_profile_rule_5">
+        <dmn:inputEntry id="_age_entry_5">
+          <dmn:text>&gt;= 65</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_risk_tolerance_entry_5">
+          <dmn:text>"LOW"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_investment_horizon_entry_5">
+          <dmn:text>&lt; 5</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_net_worth_entry_5">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_knowledge_level_entry_5">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_profile_output_5">
+          <dmn:text>"CONSERVATIVE"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Capital preservation focus</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_risk_profile_rule_default">
+        <dmn:inputEntry id="_age_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_risk_tolerance_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_investment_horizon_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_net_worth_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_knowledge_level_entry_default">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_risk_profile_output_default">
+          <dmn:text>"MODERATE"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Default moderate risk profile</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="_market_timing_analysis" name="Market Timing Analysis">
+    <dmn:extensionElements/>
+    <dmn:variable id="_market_timing_analysis_variable" name="Market Timing Analysis" typeRef="string"/>
+    <dmn:informationRequirement id="_6FA38E7D-E727-4EDE-8A09-0DCB2CE9F3F6">
+      <dmn:requiredInput href="#_market_conditions_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_market_timing_analysis_expression">
+      <dmn:text>
+        if MarketConditions.volatilityIndex &lt; 15 and MarketConditions.marketTrend = "BULL" and MarketConditions.economicOutlook = "STRONG" then "FAVORABLE_FOR_EQUITY_INVESTMENT"
+        else if MarketConditions.volatilityIndex &gt; 30 and MarketConditions.marketTrend = "BEAR" then "DEFENSIVE_POSITIONING_RECOMMENDED"
+        else if MarketConditions.interestRates &gt; 5.0 and MarketConditions.inflationRate &lt; 3.0 then "BOND_MARKET_OPPORTUNITY"
+        else if MarketConditions.volatilityIndex &gt; 25 and MarketConditions.economicOutlook = "WEAK" then "INCREASE_CASH_ALLOCATION"
+        else if MarketConditions.sectorPerformance = "TECHNOLOGY" and MarketConditions.marketTrend = "BULL" then "TECHNOLOGY_SECTOR_FOCUS"
+        else "MAINTAIN_CURRENT_ALLOCATION"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_diversification_score" name="Diversification Score">
+    <dmn:extensionElements/>
+    <dmn:variable id="_diversification_score_variable" name="Diversification Score" typeRef="number"/>
+    <dmn:informationRequirement id="_88F6CEAE-DC14-4337-8EDE-FF60EC6E7C80">
+      <dmn:requiredInput href="#_current_portfolio_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_diversification_score_expression">
+      <dmn:text>
+        100 -
+        (if CurrentPortfolio.sectorConcentration &gt; 50 then 25 else if CurrentPortfolio.sectorConcentration &gt; 30 then 15 else 0) -
+        (if CurrentPortfolio.geographicConcentration &gt; 70 then 20 else if CurrentPortfolio.geographicConcentration &gt; 50 then 10 else 0) -
+        (if abs(CurrentPortfolio.equityAllocation - 60) &gt; 20 then 15 else if abs(CurrentPortfolio.equityAllocation - 60) &gt; 10 then 8 else 0) -
+        (if CurrentPortfolio.alternativeAllocation = 0 then 10 else if CurrentPortfolio.alternativeAllocation &gt; 20 then 10 else 0) -
+        (if CurrentPortfolio.cashAllocation &gt; 20 then 10 else if CurrentPortfolio.cashAllocation &lt; 5 then 5 else 0)
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_asset_allocation_recommendation" name="Asset Allocation Recommendation">
+    <dmn:extensionElements/>
+    <dmn:variable id="_asset_allocation_recommendation_variable" name="Asset Allocation Recommendation" typeRef="string"/>
+    <dmn:informationRequirement id="_0902DB9C-268C-4717-A8E6-A71B20F70B40">
+      <dmn:requiredDecision href="#_risk_profile_assessment"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_C4628F41-3376-48C0-B652-9C9FB740D847">
+      <dmn:requiredDecision href="#_market_timing_analysis"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_8F0217FA-6EED-415B-8F36-EEE5CC157C65">
+      <dmn:requiredInput href="#_investment_goals_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_asset_allocation_recommendation_expression">
+      <dmn:text>
+        if Risk Profile Assessment = "AGGRESSIVE" and Market Timing Analysis = "FAVORABLE_FOR_EQUITY_INVESTMENT" then "80% Equity, 15% Bonds, 3% Cash, 2% Alternatives"
+        else if Risk Profile Assessment = "AGGRESSIVE" and Market Timing Analysis = "DEFENSIVE_POSITIONING_RECOMMENDED" then "60% Equity, 25% Bonds, 10% Cash, 5% Alternatives"
+        else if Risk Profile Assessment = "MODERATE_AGGRESSIVE" and InvestmentGoals.primaryObjective = "AGGRESSIVE_GROWTH" then "70% Equity, 20% Bonds, 5% Cash, 5% Alternatives"
+        else if Risk Profile Assessment = "MODERATE_AGGRESSIVE" then "65% Equity, 25% Bonds, 5% Cash, 5% Alternatives"
+        else if Risk Profile Assessment = "MODERATE" then "55% Equity, 35% Bonds, 5% Cash, 5% Alternatives"
+        else if Risk Profile Assessment = "MODERATE_CONSERVATIVE" then "40% Equity, 50% Bonds, 8% Cash, 2% Alternatives"
+        else if Risk Profile Assessment = "CONSERVATIVE" then "25% Equity, 65% Bonds, 10% Cash, 0% Alternatives"
+        else "50% Equity, 40% Bonds, 10% Cash, 0% Alternatives"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_performance_projection" name="Performance Projection">
+    <dmn:extensionElements/>
+    <dmn:variable id="_performance_projection_variable" name="Performance Projection" typeRef="number"/>
+    <dmn:informationRequirement id="_34DEB2E9-9B6E-4AB3-B32B-B5353CDDE6B6">
+      <dmn:requiredDecision href="#_risk_profile_assessment"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_6F647A57-C938-475B-971E-8B1AA56A32BC">
+      <dmn:requiredInput href="#_market_conditions_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_4AFB591D-2E1A-472F-AB59-E3F33F5A4D59">
+      <dmn:requiredDecision href="#_diversification_score"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_performance_projection_expression">
+      <dmn:text>
+        (if Risk Profile Assessment = "AGGRESSIVE" then 9.5
+         else if Risk Profile Assessment = "MODERATE_AGGRESSIVE" then 8.0
+         else if Risk Profile Assessment = "MODERATE" then 6.5
+         else if Risk Profile Assessment = "MODERATE_CONSERVATIVE" then 5.0
+         else 3.5) +
+        (if MarketConditions.marketTrend = "BULL" then 1.5 else if MarketConditions.marketTrend = "BEAR" then -2.0 else 0) +
+        (if Diversification Score &gt; 80 then 0.5 else if Diversification Score &lt; 60 then -1.0 else 0) +
+        (if MarketConditions.volatilityIndex &lt; 15 then 0.5 else if MarketConditions.volatilityIndex &gt; 30 then -1.5 else 0)
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_rebalancing_recommendation" name="Rebalancing Recommendation">
+    <dmn:extensionElements/>
+    <dmn:variable id="_rebalancing_recommendation_variable" name="Rebalancing Recommendation" typeRef="string"/>
+    <dmn:informationRequirement id="_3305653D-1AA1-4645-B86A-645648E14B75">
+      <dmn:requiredDecision href="#_diversification_score"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_3C508E1A-147F-4E85-B614-DD2D81429193">
+      <dmn:requiredInput href="#_current_portfolio_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_457D5FF3-D5EC-4D21-A7A7-9D8712999E50">
+      <dmn:requiredInput href="#_market_conditions_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_rebalancing_recommendation_expression">
+      <dmn:text>
+        if Diversification Score &lt; 60 or MarketConditions.volatilityIndex &gt; 35 then "IMMEDIATE_REBALANCING_REQUIRED"
+        else if Diversification Score &lt; 75 or MarketConditions.volatilityIndex &gt; 25 then "REBALANCING_RECOMMENDED"
+        else if CurrentPortfolio.sectorConcentration &gt; 40 then "SECTOR_REBALANCING_NEEDED"
+        else if abs(CurrentPortfolio.equityAllocation - 60) &gt; 15 then "ASSET_CLASS_REBALANCING_NEEDED"
+        else if Diversification Score &gt; 85 and MarketConditions.volatilityIndex &lt; 15 then "WELL_BALANCED"
+        else "MINOR_ADJUSTMENTS_ONLY"
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_expected_performance" name="Expected Performance">
+    <dmn:extensionElements/>
+    <dmn:variable id="_expected_performance_variable" name="Expected Performance" typeRef="string"/>
+    <dmn:informationRequirement id="_66E6BB55-DF44-44BC-A0F1-C19CA9E3BFF5">
+      <dmn:requiredDecision href="#_performance_projection"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_AF6A274E-017F-4504-B846-34624C877E7A">
+      <dmn:requiredInput href="#_investment_goals_input"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_expected_performance_expression">
+      <dmn:text>
+        "Expected Annual Return: " + string(Performance Projection) + "% | " +
+        (if Performance Projection &gt;= InvestmentGoals.targetReturn then "EXCEEDS TARGET" 
+         else if Performance Projection &gt;= (InvestmentGoals.targetReturn - 1) then "MEETS TARGET"
+         else "BELOW TARGET") + " | " +
+        (if Performance Projection &gt; 8 then "HIGH_GROWTH_POTENTIAL"
+         else if Performance Projection &gt; 5 then "MODERATE_GROWTH_EXPECTED"
+         else if Performance Projection &gt; 2 then "CONSERVATIVE_GROWTH"
+         else "CAPITAL_PRESERVATION")
+      </dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_65ABC554-A306-4C14-BAB5-ECDBFF04C3F6" name="DRG">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_risk_profile_table"/>
+          <kie:ComponentWidths dmnElementRef="_market_timing_analysis_expression"/>
+          <kie:ComponentWidths dmnElementRef="_diversification_score_expression"/>
+          <kie:ComponentWidths dmnElementRef="_asset_allocation_recommendation_expression"/>
+          <kie:ComponentWidths dmnElementRef="_performance_projection_expression"/>
+          <kie:ComponentWidths dmnElementRef="_rebalancing_recommendation_expression"/>
+          <kie:ComponentWidths dmnElementRef="_expected_performance_expression"/>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="dmnshape-drg-_portfolio_analysis_service" dmnElementRef="_portfolio_analysis_service" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="249" y="86" width="888" height="315"/>
+        <dmndi:DMNLabel/>
+        <dmndi:DMNDecisionServiceDividerLine>
+          <di:waypoint x="249" y="186"/>
+          <di:waypoint x="1137" y="186"/>
+        </dmndi:DMNDecisionServiceDividerLine>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_investor_profile_input" dmnElementRef="_investor_profile_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="298" y="539" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_market_conditions_input" dmnElementRef="_market_conditions_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="482.5981308411215" y="524" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_investment_goals_input" dmnElementRef="_investment_goals_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="710" y="502" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_current_portfolio_input" dmnElementRef="_current_portfolio_input" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="900" y="479" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_risk_profile_assessment" dmnElementRef="_risk_profile_assessment" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="269" y="240" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_market_timing_analysis" dmnElementRef="_market_timing_analysis" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="394" y="314" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_diversification_score" dmnElementRef="_diversification_score" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="462" y="194" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_asset_allocation_recommendation" dmnElementRef="_asset_allocation_recommendation" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="624" y="314" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_performance_projection" dmnElementRef="_performance_projection" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="749" y="206" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_rebalancing_recommendation" dmnElementRef="_rebalancing_recommendation" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="858" y="126" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_expected_performance" dmnElementRef="_expected_performance" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="989" y="126" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnedge-drg-_5214CE23-256E-46CC-9A8A-85ADBA9AA7D6" dmnElementRef="_5214CE23-256E-46CC-9A8A-85ADBA9AA7D6">
+        <di:waypoint x="348" y="564"/>
+        <di:waypoint x="319" y="265"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_03529A51-5CA7-4AD2-B293-6FD342D1A439" dmnElementRef="_03529A51-5CA7-4AD2-B293-6FD342D1A439">
+        <di:waypoint x="760" y="527"/>
+        <di:waypoint x="319" y="265"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_6FA38E7D-E727-4EDE-8A09-0DCB2CE9F3F6" dmnElementRef="_6FA38E7D-E727-4EDE-8A09-0DCB2CE9F3F6">
+        <di:waypoint x="532.5981308411215" y="549"/>
+        <di:waypoint x="444" y="339"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_88F6CEAE-DC14-4337-8EDE-FF60EC6E7C80" dmnElementRef="_88F6CEAE-DC14-4337-8EDE-FF60EC6E7C80">
+        <di:waypoint x="950" y="504"/>
+        <di:waypoint x="512" y="219"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_0902DB9C-268C-4717-A8E6-A71B20F70B40" dmnElementRef="_0902DB9C-268C-4717-A8E6-A71B20F70B40">
+        <di:waypoint x="319" y="265"/>
+        <di:waypoint x="674" y="339"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_C4628F41-3376-48C0-B652-9C9FB740D847" dmnElementRef="_C4628F41-3376-48C0-B652-9C9FB740D847">
+        <di:waypoint x="444" y="339"/>
+        <di:waypoint x="674" y="339"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_8F0217FA-6EED-415B-8F36-EEE5CC157C65" dmnElementRef="_8F0217FA-6EED-415B-8F36-EEE5CC157C65">
+        <di:waypoint x="760" y="527"/>
+        <di:waypoint x="674" y="339"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_34DEB2E9-9B6E-4AB3-B32B-B5353CDDE6B6" dmnElementRef="_34DEB2E9-9B6E-4AB3-B32B-B5353CDDE6B6">
+        <di:waypoint x="319" y="265"/>
+        <di:waypoint x="799" y="231"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_6F647A57-C938-475B-971E-8B1AA56A32BC" dmnElementRef="_6F647A57-C938-475B-971E-8B1AA56A32BC">
+        <di:waypoint x="532.5981308411215" y="549"/>
+        <di:waypoint x="799" y="231"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_4AFB591D-2E1A-472F-AB59-E3F33F5A4D59" dmnElementRef="_4AFB591D-2E1A-472F-AB59-E3F33F5A4D59">
+        <di:waypoint x="512" y="219"/>
+        <di:waypoint x="799" y="231"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_3305653D-1AA1-4645-B86A-645648E14B75" dmnElementRef="_3305653D-1AA1-4645-B86A-645648E14B75">
+        <di:waypoint x="512" y="219"/>
+        <di:waypoint x="908" y="151"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_3C508E1A-147F-4E85-B614-DD2D81429193" dmnElementRef="_3C508E1A-147F-4E85-B614-DD2D81429193">
+        <di:waypoint x="950" y="504"/>
+        <di:waypoint x="908" y="151"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_457D5FF3-D5EC-4D21-A7A7-9D8712999E50" dmnElementRef="_457D5FF3-D5EC-4D21-A7A7-9D8712999E50">
+        <di:waypoint x="532.5981308411215" y="549"/>
+        <di:waypoint x="908" y="151"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_66E6BB55-DF44-44BC-A0F1-C19CA9E3BFF5" dmnElementRef="_66E6BB55-DF44-44BC-A0F1-C19CA9E3BFF5">
+        <di:waypoint x="799" y="231"/>
+        <di:waypoint x="1039" y="151"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_AF6A274E-017F-4504-B846-34624C877E7A" dmnElementRef="_AF6A274E-017F-4504-B846-34624C877E7A">
+        <di:waypoint x="760" y="527"/>
+        <di:waypoint x="1039" y="151"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>
