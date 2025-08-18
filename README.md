@@ -36,7 +36,7 @@ This project uses Drools 10.1.0, which provides the latest DMN evaluation capabi
 mvn clean compile
 ```
 
-### 2. Run the Example
+### 2. Run the Basic Example
 
 Execute the main example class to see DMN evaluation in action:
 
@@ -44,7 +44,27 @@ Execute the main example class to see DMN evaluation in action:
 mvn exec:java -Dexec.mainClass="com.example.dmn.DmnEvaluationExample"
 ```
 
-### 3. Run the Tests
+### 3. Run Performance Comparison
+
+Execute the comprehensive performance comparison that tests all 16 combinations of optimization options:
+
+```bash
+mvn exec:java -Dexec.mainClass="com.example.dmn.DMNPerformanceComparison"
+```
+
+This will generate `dmn-performance-results.csv` with detailed performance metrics.
+
+### 4. Run Performance Analysis
+
+Analyze the performance results with statistical insights:
+
+```bash
+mvn exec:java@performance-analysis
+```
+
+This will read the CSV file and generate comprehensive analysis reports.
+
+### 5. Run the Tests
 
 Execute the JUnit tests to verify DMN functionality:
 
@@ -52,31 +72,61 @@ Execute the JUnit tests to verify DMN functionality:
 mvn test
 ```
 
-## DMN Model Overview
+## Performance Optimization Framework
 
-The included `loan-approval.dmn` model demonstrates a simple loan approval process with the following components:
+This project includes a comprehensive performance comparison framework that evaluates the impact of different DMN runtime optimizations. The framework tests all 16 possible combinations of these 4 optimization options:
 
-### Input Data
-- **Applicant**: Contains age, income, and credit score
-- **Loan**: Contains amount and term
+### Optimization Options
 
-### Decisions
-1. **Eligibility Check**: Determines if an applicant is eligible based on:
-   - Age >= 18
-   - Income >= 50,000
-   - Credit Score >= 650
+1. **Alpha Network Compilation**: Compiles the alpha network for faster rule evaluation
+2. **Runtime Type Checking**: Enables/disables runtime type validation
+3. **Lenient Mode**: Controls strict vs. lenient evaluation behavior
+4. **FEEL Compilation**: Compiles FEEL expressions for better performance
 
-2. **Loan Approval**: Final approval decision based on:
-   - Eligibility status
-   - Loan amount <= 500,000
+### Performance Metrics
 
-### Decision Logic
+The framework measures:
+- **Build Time**: Time to compile and build the DMN model
+- **Evaluation Time**: Average, median, P95, and P99 evaluation times
+- **Success Rate**: Percentage of successful evaluations
+- **Statistical Analysis**: Impact analysis and configuration rankings
 
-| Eligibility | Loan Amount | Result |
-|-------------|-------------|---------|
-| ELIGIBLE | <= 500,000 | APPROVED |
-| ELIGIBLE | > 500,000 | REJECTED |
-| NOT_ELIGIBLE | Any | REJECTED |
+### Configuration Mapping
+
+Each configuration is identified by a number (0-15) where each bit represents an optimization:
+- Bit 0: Alpha Network (1=enabled, 0=disabled)
+- Bit 1: Runtime Type Check (1=enabled, 0=disabled)  
+- Bit 2: Lenient Mode (1=enabled, 0=disabled)
+- Bit 3: FEEL Compilation (1=enabled, 0=disabled)
+
+For example:
+- Config 0: All optimizations OFF
+- Config 15: All optimizations ON
+- Config 1: Only Alpha Network ON
+
+### Output Files
+
+- `dmn-performance-results.csv`: Detailed performance data
+- `dmn-performance-analysis.txt`: Statistical analysis report
+
+## DMN Models Overview
+
+This project includes 5 complex DMN models for comprehensive performance testing:
+
+### 1. Loan Approval (`loan-approval.dmn`)
+A basic loan approval process with eligibility and amount checks.
+
+### 2. Insurance Risk Assessment (`insurance-risk-assessment.dmn`)
+Comprehensive insurance risk evaluation considering person, vehicle, driving history, and coverage details.
+
+### 3. Supply Chain Optimization (`supply-chain-optimization.dmn`)
+Complex supply chain decision making including product characteristics, order requirements, supplier capabilities, warehouse constraints, and transportation routes.
+
+### 4. Financial Portfolio Analysis (`financial-portfolio-analysis.dmn`)
+Sophisticated investment decision support considering investor profile, market conditions, investment goals, and current portfolio allocation.
+
+### 5. Healthcare Treatment Protocol (`healthcare-treatment-protocol.dmn`)
+Medical decision support system incorporating patient data, medical history, symptoms, lab results, and imaging findings.
 
 ## Example Usage
 

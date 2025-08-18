@@ -1,0 +1,199 @@
+=== COMPREHENSIVE DMN PERFORMANCE ANALYSIS REPORT ===
+Generated: 2025-08-18 17:06:01
+Total data points: 80
+
+CONFIGURATION MAPPING:
+=======================
+Config  0: Alpha=OFF, TypeCheck=OFF, Lenient=OFF, FEEL=OFF
+Config  1: Alpha=ON, TypeCheck=OFF, Lenient=OFF, FEEL=OFF
+Config  2: Alpha=OFF, TypeCheck=ON, Lenient=OFF, FEEL=OFF
+Config  3: Alpha=ON, TypeCheck=ON, Lenient=OFF, FEEL=OFF
+Config  4: Alpha=OFF, TypeCheck=OFF, Lenient=ON, FEEL=OFF
+Config  5: Alpha=ON, TypeCheck=OFF, Lenient=ON, FEEL=OFF
+Config  6: Alpha=OFF, TypeCheck=ON, Lenient=ON, FEEL=OFF
+Config  7: Alpha=ON, TypeCheck=ON, Lenient=ON, FEEL=OFF
+Config  8: Alpha=OFF, TypeCheck=OFF, Lenient=OFF, FEEL=ON
+Config  9: Alpha=ON, TypeCheck=OFF, Lenient=OFF, FEEL=ON
+Config 10: Alpha=OFF, TypeCheck=ON, Lenient=OFF, FEEL=ON
+Config 11: Alpha=ON, TypeCheck=ON, Lenient=OFF, FEEL=ON
+Config 12: Alpha=OFF, TypeCheck=OFF, Lenient=ON, FEEL=ON
+Config 13: Alpha=ON, TypeCheck=OFF, Lenient=ON, FEEL=ON
+Config 14: Alpha=OFF, TypeCheck=ON, Lenient=ON, FEEL=ON
+Config 15: Alpha=ON, TypeCheck=ON, Lenient=ON, FEEL=ON
+
+
+INDIVIDUAL DMN MODEL ANALYSIS:
+===============================
+
+HEALTHCARE-TREATMENT-PROTOCOL.DMN:
+----------------------------------
+BASELINE PERFORMANCE (Config 0):
+  Build Time: avg=10.30ms, median=8.80ms, p95=20.00ms, p99=22.71ms
+  Eval Time:  avg=71.56μs, median=62.20μs, p95=105.10μs, p99=213.10μs
+
+BEST PERFORMING CONFIG:
+  Config 13: 65.3% improvement from baseline
+  Build Time: avg=5.81ms, median=5.73ms, p95=6.21ms, p99=7.81ms
+  Eval Time:  avg=24.81μs, median=23.20μs, p95=28.60μs, p99=66.70μs
+
+WORST PERFORMING CONFIG:
+  Config 14: 1791.0% change from baseline
+  Build Time: avg=5.77ms, median=5.75ms, p95=6.18ms, p99=6.27ms
+  Eval Time:  avg=1353.16μs, median=456.45μs, p95=893.90μs, p99=18701.80μs
+
+FINANCIAL-PORTFOLIO-ANALYSIS.DMN:
+---------------------------------
+BASELINE PERFORMANCE (Config 0):
+  Build Time: avg=8.96ms, median=8.22ms, p95=10.11ms, p99=17.04ms
+  Eval Time:  avg=59.06μs, median=43.40μs, p95=145.90μs, p99=238.50μs
+
+BEST PERFORMING CONFIG:
+  Config 9: 71.2% improvement from baseline
+  Build Time: avg=5.64ms, median=5.56ms, p95=5.90ms, p99=7.68ms
+  Eval Time:  avg=16.99μs, median=16.20μs, p95=18.80μs, p99=23.30μs
+
+WORST PERFORMING CONFIG:
+  Config 2: 1104.7% change from baseline
+  Build Time: avg=6.41ms, median=6.28ms, p95=6.67ms, p99=8.46ms
+  Eval Time:  avg=711.44μs, median=450.45μs, p95=1058.80μs, p99=4205.30μs
+
+SUPPLY-CHAIN-OPTIMIZATION.DMN:
+------------------------------
+BASELINE PERFORMANCE (Config 0):
+  Build Time: avg=40.88ms, median=38.70ms, p95=41.58ms, p99=77.62ms
+  Eval Time:  avg=65.57μs, median=42.70μs, p95=165.10μs, p99=227.50μs
+
+BEST PERFORMING CONFIG:
+  Config 5: 62.5% improvement from baseline
+  Build Time: avg=36.08ms, median=35.22ms, p95=42.28ms, p99=42.51ms
+  Eval Time:  avg=24.61μs, median=23.40μs, p95=29.70μs, p99=49.80μs
+
+WORST PERFORMING CONFIG:
+  Config 2: 248.5% change from baseline
+  Build Time: avg=36.48ms, median=36.31ms, p95=37.64ms, p99=40.86ms
+  Eval Time:  avg=228.53μs, median=221.00μs, p95=380.40μs, p99=466.30μs
+
+INSURANCE-RISK-ASSESSMENT.DMN:
+------------------------------
+BASELINE PERFORMANCE (Config 0):
+  Build Time: avg=49.88ms, median=34.11ms, p95=105.16ms, p99=160.49ms
+  Eval Time:  avg=66.60μs, median=53.10μs, p95=116.50μs, p99=344.50μs
+
+BEST PERFORMING CONFIG:
+  Config 8: 75.7% improvement from baseline
+  Build Time: avg=30.18ms, median=30.18ms, p95=32.55ms, p99=33.97ms
+  Eval Time:  avg=16.21μs, median=15.50μs, p95=17.10μs, p99=23.30μs
+
+WORST PERFORMING CONFIG:
+  Config 10: 171.0% change from baseline
+  Build Time: avg=30.73ms, median=30.71ms, p95=31.75ms, p99=32.87ms
+  Eval Time:  avg=180.46μs, median=135.15μs, p95=392.50μs, p99=710.10μs
+
+LOAN-APPROVAL.DMN:
+------------------
+BASELINE PERFORMANCE (Config 0):
+  Build Time: avg=42.65ms, median=9.40ms, p95=22.72ms, p99=643.13ms
+  Eval Time:  avg=97.72μs, median=77.60μs, p95=188.90μs, p99=400.90μs
+
+BEST PERFORMING CONFIG:
+  Config 8: 92.8% improvement from baseline
+  Build Time: avg=2.69ms, median=2.66ms, p95=3.31ms, p99=3.32ms
+  Eval Time:  avg=7.07μs, median=6.90μs, p95=7.20μs, p99=9.90μs
+
+WORST PERFORMING CONFIG:
+  Config 0: 0.0% change from baseline
+  Build Time: avg=42.65ms, median=9.40ms, p95=22.72ms, p99=643.13ms
+  Eval Time:  avg=97.72μs, median=77.60μs, p95=188.90μs, p99=400.90μs
+
+
+OVERALL OPTIMIZATION IMPACT:
+=============================
+Average optimization impact across all DMN files:
+  Alpha Network: 21.9% improvement
+  Runtime Type Check: 1219.7% degradation
+  Lenient Mode: 21.5% improvement
+  FEEL Compilation: 17.1% improvement
+
+
+CONFIGURATION RANKINGS:
+=======================
+Top 10 Configurations (ranked by average evaluation time):
+
+RANK 1 - CONFIG 5: Alpha=ON, TypeCheck=OFF, Lenient=ON, FEEL=OFF
+  Build Time: avg=16.67ms, median=16.26ms, p95=19.01ms
+  Eval Time:  avg=18.24μs, median=17.16μs, p95=21.70μs
+  Success Rate: 100.0% (5 data points)
+
+RANK 2 - CONFIG 9: Alpha=ON, TypeCheck=OFF, Lenient=OFF, FEEL=ON
+  Build Time: avg=15.99ms, median=15.80ms, p95=16.87ms
+  Eval Time:  avg=18.42μs, median=17.14μs, p95=21.06μs
+  Success Rate: 100.0% (5 data points)
+
+RANK 3 - CONFIG 8: Alpha=OFF, TypeCheck=OFF, Lenient=OFF, FEEL=ON
+  Build Time: avg=15.87ms, median=15.78ms, p95=16.92ms
+  Eval Time:  avg=19.07μs, median=17.10μs, p95=21.70μs
+  Success Rate: 100.0% (5 data points)
+
+RANK 4 - CONFIG 13: Alpha=ON, TypeCheck=OFF, Lenient=ON, FEEL=ON
+  Build Time: avg=15.86ms, median=15.74ms, p95=16.72ms
+  Eval Time:  avg=19.22μs, median=17.16μs, p95=22.34μs
+  Success Rate: 100.0% (5 data points)
+
+RANK 5 - CONFIG 12: Alpha=OFF, TypeCheck=OFF, Lenient=ON, FEEL=ON
+  Build Time: avg=16.40ms, median=16.02ms, p95=18.41ms
+  Eval Time:  avg=19.37μs, median=18.47μs, p95=22.32μs
+  Success Rate: 100.0% (5 data points)
+
+RANK 6 - CONFIG 4: Alpha=OFF, TypeCheck=OFF, Lenient=ON, FEEL=OFF
+  Build Time: avg=16.94ms, median=16.60ms, p95=19.14ms
+  Eval Time:  avg=19.49μs, median=18.06μs, p95=24.20μs
+  Success Rate: 100.0% (5 data points)
+
+RANK 7 - CONFIG 1: Alpha=ON, TypeCheck=OFF, Lenient=OFF, FEEL=OFF
+  Build Time: avg=17.96ms, median=17.67ms, p95=19.73ms
+  Eval Time:  avg=30.02μs, median=23.44μs, p95=58.52μs
+  Success Rate: 100.0% (5 data points)
+
+RANK 8 - CONFIG 0: Alpha=OFF, TypeCheck=OFF, Lenient=OFF, FEEL=OFF
+  Build Time: avg=30.53ms, median=19.85ms, p95=39.91ms
+  Eval Time:  avg=72.10μs, median=55.80μs, p95=144.30μs
+  Success Rate: 100.0% (5 data points)
+
+RANK 9 - CONFIG 11: Alpha=ON, TypeCheck=ON, Lenient=OFF, FEEL=ON
+  Build Time: avg=16.12ms, median=15.85ms, p95=18.10ms
+  Eval Time:  avg=358.35μs, median=191.44μs, p95=361.70μs
+  Success Rate: 60.0% (5 data points)
+
+RANK 10 - CONFIG 6: Alpha=OFF, TypeCheck=ON, Lenient=ON, FEEL=OFF
+  Build Time: avg=16.46ms, median=16.21ms, p95=18.79ms
+  Eval Time:  avg=358.76μs, median=190.31μs, p95=461.90μs
+  Success Rate: 60.0% (5 data points)
+
+
+
+EVIDENCE-BASED RECOMMENDATIONS:
+================================
+TOP PRODUCTION-READY CONFIGURATIONS (100% success rate):
+
+1. CONFIG 5: Alpha=ON, TypeCheck=OFF, Lenient=ON, FEEL=OFF
+   Build Time: avg=16.67ms, median=16.26ms, p95=19.01ms
+   Eval Time:  avg=18.24μs, median=17.16μs, p95=21.70μs
+   Success Rate: 100.0%
+
+2. CONFIG 9: Alpha=ON, TypeCheck=OFF, Lenient=OFF, FEEL=ON
+   Build Time: avg=15.99ms, median=15.80ms, p95=16.87ms
+   Eval Time:  avg=18.42μs, median=17.14μs, p95=21.06μs
+   Success Rate: 100.0%
+
+3. CONFIG 8: Alpha=OFF, TypeCheck=OFF, Lenient=OFF, FEEL=ON
+   Build Time: avg=15.87ms, median=15.78ms, p95=16.92ms
+   Eval Time:  avg=19.07μs, median=17.10μs, p95=21.70μs
+   Success Rate: 100.0%
+
+
+GENERAL GUIDELINES:
+• Test with your specific DMN models and data patterns
+• Start with baseline (Config 0) to establish performance expectations
+• Prioritize configurations with 100% success rates for production
+• Monitor build time vs evaluation time trade-offs
+• Validate performance improvements under realistic load conditions

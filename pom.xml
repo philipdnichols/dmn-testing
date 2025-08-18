@@ -110,9 +110,36 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
-                <configuration>
-                    <mainClass>com.example.dmn.DmnEvaluationExample</mainClass>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.example.dmn.DmnEvaluationExample</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>performance-comparison</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.example.dmn.DMNPerformanceComparison</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>performance-analysis</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.example.dmn.DMNPerformanceAnalyzer</mainClass>
+                            <commandlineArgs>dmn-performance-results.csv</commandlineArgs>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
