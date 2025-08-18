@@ -6,13 +6,11 @@ import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.Message;
 import org.kie.api.runtime.KieContainer;
 import org.kie.dmn.api.core.DMNContext;
-import org.kie.dmn.api.core.DMNDecisionResult;
 import org.kie.dmn.api.core.DMNResult;
 import org.kie.dmn.api.core.DMNRuntime;
 
 import java.io.InputStream;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Example class demonstrating DMN evaluation using Drools 10.1.0 with performance benchmarking
