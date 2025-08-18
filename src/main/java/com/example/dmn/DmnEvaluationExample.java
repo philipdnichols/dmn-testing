@@ -114,7 +114,7 @@ public class DmnEvaluationExample {
             if (dmnResult.hasErrors()) {
                 System.err.println("DMN evaluation errors:");
                 dmnResult.getMessages().forEach(message -> 
-                    System.err.println("  " + message.getMessage()));
+                    System.err.println("  " + message.getText()));
                 return;
             }
             
