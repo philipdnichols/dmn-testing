@@ -64,7 +64,23 @@ mvn exec:java@performance-analysis
 
 This will read the CSV file and generate comprehensive analysis reports.
 
-### 5. Run the Tests
+### 5. Run Unified Runtime Analysis (NEW)
+
+Execute the unified runtime performance analysis that compares a single runtime containing all DMN models vs individual runtimes:
+
+```bash
+mvn exec:java@unified-runtime-analysis
+```
+
+Or use the convenient script:
+
+```bash
+./run-unified-analysis.sh
+```
+
+This generates unified runtime performance metrics including memory usage, cross-model evaluation performance, and efficiency scores.
+
+### 6. Run the Tests
 
 Execute the JUnit tests to verify DMN functionality:
 
@@ -106,8 +122,13 @@ For example:
 
 ### Output Files
 
-- `dmn-performance-results.csv`: Detailed performance data
-- `dmn-performance-analysis.txt`: Statistical analysis report
+#### Individual Runtime Analysis
+- `dmn-performance-results.csv`: Detailed performance data for individual runtimes
+- `dmn-performance-analysis.txt`: Statistical analysis report for individual runtimes
+
+#### Unified Runtime Analysis (NEW)
+- `dmn-unified-runtime-results.csv`: Comprehensive unified vs individual runtime comparison data
+- `dmn-unified-runtime-analysis.txt`: Detailed analysis of unified runtime benefits, trade-offs, and recommendations
 
 ## DMN Models Overview
 

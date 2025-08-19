@@ -428,17 +428,17 @@ public class DMNPerformanceComparison {
         vehicle.put("year", year);
         vehicle.put("value", value);
         vehicle.put("safetyRating", safetyRating);
-        vehicle.put("antitheftDevice", antitheftDevice);
+        vehicle.put("antiTheft", antitheftDevice);  // Fixed: was "antitheftDevice"
         return vehicle;
     }
 
     private Map<String, Object> createDrivingHistory(int yearsLicensed, int accidents, int violations, int claims, int totalMileage) {
         Map<String, Object> history = new HashMap<>();
         history.put("yearsLicensed", yearsLicensed);
-        history.put("accidents", accidents);
-        history.put("violations", violations);
-        history.put("claims", claims);
-        history.put("totalMileage", totalMileage);
+        history.put("accidentsLastThreeYears", accidents);    // Fixed: was "accidents"
+        history.put("violationsLastThreeYears", violations);  // Fixed: was "violations"
+        history.put("claimsLastFiveYears", claims);           // Fixed: was "claims"
+        history.put("milesPerYear", totalMileage);            // Fixed: was "totalMileage"
         return history;
     }
 
@@ -524,12 +524,12 @@ public class DMNPerformanceComparison {
 
     private Map<String, Object> createMarketConditions(double volatility, String trend, double interestRates, double inflationRate, String economicIndicators, String sectorRotation) {
         Map<String, Object> conditions = new HashMap<>();
-        conditions.put("volatility", volatility);
-        conditions.put("trend", trend);
+        conditions.put("volatilityIndex", volatility);  // Fixed: was "volatility"
+        conditions.put("marketTrend", trend);           // Fixed: was "trend"
         conditions.put("interestRates", interestRates);
         conditions.put("inflationRate", inflationRate);
-        conditions.put("economicIndicators", economicIndicators);
-        conditions.put("sectorRotation", sectorRotation);
+        conditions.put("economicOutlook", economicIndicators);  // Fixed: was "economicIndicators"
+        conditions.put("sectorPerformance", sectorRotation);    // Fixed: was "sectorRotation"
         return conditions;
     }
 
@@ -537,10 +537,10 @@ public class DMNPerformanceComparison {
         Map<String, Object> goals = new HashMap<>();
         goals.put("primaryObjective", primaryObjective);
         goals.put("targetReturn", targetReturn);
-        goals.put("maximumDrawdown", maximumDrawdown);
-        goals.put("incomeRequirement", incomeRequirement);
-        goals.put("taxConsiderations", taxConsiderations);
-        goals.put("esgPreferences", esgPreferences);
+        goals.put("maxDrawdown", maximumDrawdown);        // Fixed: was "maximumDrawdown"
+        goals.put("investmentHorizon", incomeRequirement); // Fixed: was "incomeRequirement", using as horizon
+        goals.put("incomePriority", taxConsiderations);   // Fixed: was "taxConsiderations"
+        goals.put("growthPriority", esgPreferences);      // Fixed: was "esgPreferences"
         return goals;
     }
 
@@ -551,8 +551,8 @@ public class DMNPerformanceComparison {
         portfolio.put("bondAllocation", bondAllocation);
         portfolio.put("alternativeAllocation", alternativeAllocation);
         portfolio.put("cashAllocation", cashAllocation);
-        portfolio.put("internationalAllocation", internationalAllocation);
         portfolio.put("sectorConcentration", sectorConcentration);
+        portfolio.put("geographicConcentration", internationalAllocation); // Fixed: was "internationalAllocation"
         return portfolio;
     }
 
@@ -563,7 +563,7 @@ public class DMNPerformanceComparison {
         patient.put("weight", weight);
         patient.put("height", height);
         patient.put("bmi", bmi);
-        patient.put("bloodPressure", bloodPressure);
+        patient.put("bloodPressureCategory", bloodPressure); // Fixed: was "bloodPressure"
         patient.put("heartRate", heartRate);
         patient.put("temperature", temperature);
         patient.put("oxygenSaturation", oxygenSaturation);
@@ -576,30 +576,30 @@ public class DMNPerformanceComparison {
         history.put("chronicConditions", chronicConditions);
         history.put("allergies", allergies);
         history.put("currentMedications", currentMedications);
-        history.put("previousSurgeries", previousSurgeries);
+        history.put("recentSurgeries", previousSurgeries);  // Fixed: was "previousSurgeries"
         history.put("familyHistory", familyHistory);
         history.put("smokingStatus", smokingStatus);
-        history.put("alcoholConsumption", alcoholConsumption);
+        history.put("alcoholUse", alcoholConsumption);      // Fixed: was "alcoholConsumption"
         return history;
     }
 
     private Map<String, Object> createSymptoms(String primaryComplaint, int symptomDuration, int severityScore, List<String> associatedSymptoms, int painLevel, String onsetType, String symptomPattern) {
         Map<String, Object> symptoms = new HashMap<>();
         symptoms.put("primaryComplaint", primaryComplaint);
-        symptoms.put("symptomDuration", symptomDuration);
-        symptoms.put("severityScore", severityScore);
+        symptoms.put("durationHours", symptomDuration);      // Fixed: was "symptomDuration"
+        symptoms.put("severityScale", severityScore);        // Fixed: was "severityScore"
         symptoms.put("associatedSymptoms", associatedSymptoms);
-        symptoms.put("painLevel", painLevel);
+        symptoms.put("painScale", painLevel);                // Fixed: was "painLevel"
         symptoms.put("onsetType", onsetType);
-        symptoms.put("symptomPattern", symptomPattern);
+        symptoms.put("pattern", symptomPattern);             // Fixed: was "symptomPattern"
         return symptoms;
     }
 
     private Map<String, Object> createLabResults(String completeBloodCount, String basicMetabolicPanel, String liverFunction, 
                                                 String kidneyFunction, String cardiacMarkers, String inflammatoryMarkers, int glucoseLevel, double hemoglobinA1c) {
         Map<String, Object> labs = new HashMap<>();
-        labs.put("completeBloodCount", completeBloodCount);
-        labs.put("basicMetabolicPanel", basicMetabolicPanel);
+        labs.put("bloodCount", completeBloodCount);           // Fixed: was "completeBloodCount"
+        labs.put("chemistryPanel", basicMetabolicPanel);     // Fixed: was "basicMetabolicPanel"
         labs.put("liverFunction", liverFunction);
         labs.put("kidneyFunction", kidneyFunction);
         labs.put("cardiacMarkers", cardiacMarkers);

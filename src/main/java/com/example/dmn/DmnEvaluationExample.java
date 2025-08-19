@@ -283,17 +283,17 @@ public class DmnEvaluationExample {
         vehicle.put("year", year);
         vehicle.put("value", value);
         vehicle.put("safetyRating", safetyRating);
-        vehicle.put("antitheftDevice", antitheftDevice);
+        vehicle.put("antiTheft", antitheftDevice);  // Fixed: was "antitheftDevice"
         return vehicle;
     }
 
     private Map<String, Object> createDrivingHistory(int yearsLicensed, int accidents, int violations, int claims, int totalMileage) {
         Map<String, Object> history = new HashMap<>();
         history.put("yearsLicensed", yearsLicensed);
-        history.put("accidents", accidents);
-        history.put("violations", violations);
-        history.put("claims", claims);
-        history.put("totalMileage", totalMileage);
+        history.put("accidentsLastThreeYears", accidents);    // Fixed: was "accidents"
+        history.put("violationsLastThreeYears", violations);  // Fixed: was "violations"
+        history.put("claimsLastFiveYears", claims);           // Fixed: was "claims"
+        history.put("milesPerYear", totalMileage);            // Fixed: was "totalMileage"
         return history;
     }
 
@@ -379,12 +379,12 @@ public class DmnEvaluationExample {
 
     private Map<String, Object> createMarketConditions(double volatility, String trend, double interestRates, double inflationRate, String economicIndicators, String sectorRotation) {
         Map<String, Object> conditions = new HashMap<>();
-        conditions.put("volatility", volatility);
-        conditions.put("trend", trend);
+        conditions.put("volatilityIndex", volatility);  // Fixed: was "volatility"
+        conditions.put("marketTrend", trend);           // Fixed: was "trend"
         conditions.put("interestRates", interestRates);
         conditions.put("inflationRate", inflationRate);
-        conditions.put("economicIndicators", economicIndicators);
-        conditions.put("sectorRotation", sectorRotation);
+        conditions.put("economicOutlook", economicIndicators);  // Fixed: was "economicIndicators"
+        conditions.put("sectorPerformance", sectorRotation);    // Fixed: was "sectorRotation"
         return conditions;
     }
 
@@ -392,10 +392,10 @@ public class DmnEvaluationExample {
         Map<String, Object> goals = new HashMap<>();
         goals.put("primaryObjective", primaryObjective);
         goals.put("targetReturn", targetReturn);
-        goals.put("maximumDrawdown", maximumDrawdown);
-        goals.put("incomeRequirement", incomeRequirement);
-        goals.put("taxConsiderations", taxConsiderations);
-        goals.put("esgPreferences", esgPreferences);
+        goals.put("maxDrawdown", maximumDrawdown);        // Fixed: was "maximumDrawdown"
+        goals.put("investmentHorizon", incomeRequirement); // Fixed: was "incomeRequirement", using as horizon
+        goals.put("incomePriority", taxConsiderations);   // Fixed: was "taxConsiderations"
+        goals.put("growthPriority", esgPreferences);      // Fixed: was "esgPreferences"
         return goals;
     }
 
@@ -406,8 +406,8 @@ public class DmnEvaluationExample {
         portfolio.put("bondAllocation", bondAllocation);
         portfolio.put("alternativeAllocation", alternativeAllocation);
         portfolio.put("cashAllocation", cashAllocation);
-        portfolio.put("internationalAllocation", internationalAllocation);
         portfolio.put("sectorConcentration", sectorConcentration);
+        portfolio.put("geographicConcentration", internationalAllocation); // Fixed: was "internationalAllocation"
         return portfolio;
     }
 
@@ -418,7 +418,7 @@ public class DmnEvaluationExample {
         patient.put("weight", weight);
         patient.put("height", height);
         patient.put("bmi", bmi);
-        patient.put("bloodPressure", bloodPressure);
+        patient.put("bloodPressureCategory", bloodPressure); // Fixed: was "bloodPressure"
         patient.put("heartRate", heartRate);
         patient.put("temperature", temperature);
         patient.put("oxygenSaturation", oxygenSaturation);

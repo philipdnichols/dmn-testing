@@ -1,0 +1,6 @@
+Timestamp,DMN_File,Traditional_Build_Ms,Traditional_Eval_Micros,KJAR_Load_Ms,KJAR_Eval_Micros,KJAR_Creation_Ms,Build_Improvement_Percent,Eval_Improvement_Percent,Traditional_Success_Count,KJAR_Success_Count
+2025-08-19 13:30:47,loan-approval.dmn,42.826,87.618,0.662,48.543,8.298,98.46,44.60,200,200
+2025-08-19 13:30:47,insurance-risk-assessment.dmn,56.780,183.576,0.649,161.156,38.234,98.86,12.21,0,0
+2025-08-19 13:30:47,supply-chain-optimization.dmn,49.453,77.498,0.520,59.034,45.182,98.95,23.83,200,200
+2025-08-19 13:30:47,financial-portfolio-analysis.dmn,8.025,60.984,0.591,48.894,7.890,92.63,19.83,200,200
+2025-08-19 13:30:47,healthcare-treatment-protocol.dmn,8.397,78.068,0.501,65.658,8.656,94.03,15.90,200,200

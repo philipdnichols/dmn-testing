@@ -1,0 +1,94 @@
+=== DMN UNIFIED RUNTIME PERFORMANCE ANALYSIS ===
+Generated: 2025-08-19 11:22:31
+Total configurations tested: 16
+DMN models in unified runtime: 5
+
+UNIFIED vs INDIVIDUAL RUNTIME COMPARISON:
+=========================================
+
+BASELINE COMPARISON (Config 0 - No Optimizations):
+Build Time: Unified=158.00ms, Individual=104.69ms, Overhead=50.9%
+Memory Usage: Unified=38.49MB, Individual=39.30MB, Savings=2.1%
+Evaluation Time: Unified=42.20μs, Individual=23.07μs, Change=82.9%
+
+BEST UNIFIED RUNTIME CONFIGURATION:
+Config 5: Alpha=ON, TypeCheck=OFF, Lenient=ON, FEEL=OFF
+Build Time: 84.83ms (vs 89.15ms individual)
+Memory Usage: 30.23MB (vs 37.77MB individual)
+Evaluation Time: 14.11μs (vs 16.57μs individual)
+Efficiency Score: 1.20
+
+MEMORY EFFICIENCY ANALYSIS:
+============================
+
+Average memory savings with unified runtime: -13.5%
+Best memory efficiency: Config 9 with 20.2% savings
+  Unified: 30.14MB, Individual: 37.76MB
+
+CROSS-MODEL EVALUATION PERFORMANCE:
+===================================
+
+Best cross-model performance: Config 9
+Average cross-model evaluation time: 39.96μs
+Cross-model success rate: 100.0%
+
+Average cross-model evaluation time across all configs: 132.17μs
+
+TOP UNIFIED RUNTIME CONFIGURATIONS:
+====================================
+
+RANK 1 - CONFIG 9: Alpha=ON, TypeCheck=OFF, Lenient=OFF, FEEL=ON
+  Efficiency Score: 1.21
+  Build Time: 84.58ms
+  Memory Usage: 30.14MB
+  Evaluation Time: 14.31μs
+  Success Rate: 100.0%
+
+RANK 2 - CONFIG 5: Alpha=ON, TypeCheck=OFF, Lenient=ON, FEEL=OFF
+  Efficiency Score: 1.20
+  Build Time: 84.83ms
+  Memory Usage: 30.23MB
+  Evaluation Time: 14.11μs
+  Success Rate: 100.0%
+
+RANK 3 - CONFIG 1: Alpha=ON, TypeCheck=OFF, Lenient=OFF, FEEL=OFF
+  Efficiency Score: 1.17
+  Build Time: 89.69ms
+  Memory Usage: 30.18MB
+  Evaluation Time: 15.03μs
+  Success Rate: 100.0%
+
+RANK 4 - CONFIG 12: Alpha=OFF, TypeCheck=OFF, Lenient=ON, FEEL=ON
+  Efficiency Score: 1.07
+  Build Time: 83.58ms
+  Memory Usage: 38.15MB
+  Evaluation Time: 14.60μs
+  Success Rate: 100.0%
+
+RANK 5 - CONFIG 4: Alpha=OFF, TypeCheck=OFF, Lenient=ON, FEEL=OFF
+  Efficiency Score: 1.07
+  Build Time: 84.27ms
+  Memory Usage: 38.16MB
+  Evaluation Time: 15.52μs
+  Success Rate: 100.0%
+
+UNIFIED RUNTIME RECOMMENDATIONS:
+=================================
+
+WHEN TO USE UNIFIED RUNTIME:
+• Multiple DMN models need to be evaluated in the same application
+• Memory usage is a concern (average -13.5% savings)
+• Cross-model decision scenarios are common
+• Application startup time is less critical than runtime performance
+
+WHEN TO USE INDIVIDUAL RUNTIMES:
+• Only one DMN model is used at a time
+• Models are loaded/unloaded dynamically
+• Strict isolation between decision models is required
+• Minimal startup time is critical
+
+OPTIMIZATION RECOMMENDATIONS FOR UNIFIED RUNTIME:
+• Alpha Network: 10.4% improvement
+• FEEL Compilation: 9.0% improvement
+• Lenient Mode: 7.5% improvement
+• Runtime Type Check: 388.0% degradation

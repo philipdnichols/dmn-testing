@@ -139,6 +139,42 @@
                             <commandlineArgs>dmn-performance-results.csv</commandlineArgs>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>unified-runtime-analysis</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.example.dmn.DMNUnifiedRuntimeAnalyzer</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>kjar-performance-analysis</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.example.dmn.DMNKjarPerformanceAnalyzer</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>kjar-example</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.example.dmn.DMNKjarExample</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>runtime-builder-example</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.example.dmn.DMNRuntimeBuilderExample</mainClass>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

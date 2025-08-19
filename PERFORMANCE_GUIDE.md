@@ -1,6 +1,6 @@
 # DMN Performance Optimization Guide
 
-This guide explains how to use the comprehensive DMN performance comparison framework to optimize your DMN runtime configurations.
+This guide explains how to use the comprehensive DMN performance comparison framework to optimize your DMN runtime configurations, including both individual and unified runtime analysis.
 
 ## Quick Start
 
@@ -9,17 +9,27 @@ This guide explains how to use the comprehensive DMN performance comparison fram
    mvn clean compile
    ```
 
-2. **Run performance comparison:**
+2. **Run individual runtime performance comparison:**
    ```bash
    mvn exec:java@performance-comparison
    ```
 
-3. **Analyze results:**
+3. **Analyze individual runtime results:**
    ```bash
    mvn exec:java@performance-analysis
    ```
 
+4. **Run unified runtime analysis (NEW):**
+   ```bash
+   mvn exec:java@unified-runtime-analysis
+   ```
+
 ## Understanding the Results
+
+### Test Types
+
+**Individual Runtime Testing**: Tests each DMN model in its own isolated runtime
+**Unified Runtime Testing**: Tests all DMN models loaded into a single runtime
 
 ### Configuration Numbers
 Each configuration (0-15) represents a combination of optimization options:
@@ -28,10 +38,18 @@ Each configuration (0-15) represents a combination of optimization options:
 - **Others**: Various combinations of the 4 optimization flags
 
 ### Performance Metrics
+
+#### Individual Runtime Metrics
 - **Build Time**: Time to compile the DMN model (milliseconds)
 - **Evaluation Time**: Time to evaluate decisions (microseconds)
 - **Success Rate**: Percentage of successful evaluations
 - **Percentiles**: P95 and P99 evaluation times for understanding outliers
+
+#### Unified Runtime Metrics (NEW)
+- **Unified Build Time**: Time to compile all DMN models into one runtime
+- **Memory Usage**: Heap memory consumption comparison
+- **Cross-Model Evaluation**: Performance when evaluating multiple models in sequence
+- **Runtime Efficiency Score**: Composite score weighing evaluation time and memory usage
 
 ### Optimization Options
 
@@ -158,6 +176,46 @@ mvn exec:java@performance-comparison
 ./check-performance-regression.sh dmn-performance-results.csv
 ```
 
+## Unified Runtime vs Individual Runtime Decision Guide
+
+### When to Use Unified Runtime
+- **Multiple DMN models** are used in the same application
+- **Memory efficiency** is important (typically 20-40% memory savings)
+- **Cross-model decision scenarios** are common
+- **Application startup time** is less critical than runtime performance
+- **Shared resources** and caching benefits are desired
+
+### When to Use Individual Runtimes
+- **Only one DMN model** is used at a time
+- **Dynamic model loading/unloading** is required
+- **Strict isolation** between decision models is needed
+- **Minimal startup time** is critical
+- **Independent model versioning** is important
+
+### Performance Characteristics
+
+#### Unified Runtime Advantages
+- **Memory Efficiency**: Shared KIE container and runtime resources
+- **Cross-Model Performance**: Optimized for scenarios using multiple models
+- **Caching Benefits**: Shared compilation and optimization artifacts
+- **Resource Consolidation**: Single JVM instance for all models
+
+#### Unified Runtime Trade-offs
+- **Higher Build Time**: All models must be compiled together
+- **Larger Memory Footprint**: All models loaded simultaneously
+- **Complex Error Handling**: Failure in one model affects the entire runtime
+- **Deployment Complexity**: All models must be deployed together
+
+## Output Files
+
+### Individual Runtime Analysis
+- **`dmn-performance-results.csv`**: Detailed performance data for all configurations and DMN models
+- **`dmn-performance-analysis.txt`**: Human-readable analysis with recommendations
+
+### Unified Runtime Analysis (NEW)
+- **`dmn-unified-runtime-results.csv`**: Comprehensive unified vs individual runtime comparison
+- **`dmn-unified-runtime-analysis.txt`**: Detailed analysis of unified runtime benefits and trade-offs
+
 ## Conclusion
 
-Use this framework to systematically evaluate and optimize your DMN runtime performance. Remember that optimal configurations depend on your specific use case, so always test with representative data and models.
+Use this expanded framework to systematically evaluate and optimize your DMN runtime performance for both individual and unified runtime scenarios. The unified runtime analysis helps you make informed decisions about runtime architecture based on your specific use case requirements.
