@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://www.drools.org/xsd/kmodule"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.drools.org/xsd/kmodule http://www.drools.org/xsd/kmodule.xsd">
+
+    <!-- Default knowledge base for all rule assets -->
+    <kbase name="defaultKieBase" default="true" packages="rules">
+        <ksession name="defaultKieSession" default="true"/>
+    </kbase>
+
+    <!-- DMN-specific knowledge base -->
+    <kbase name="dmnKieBase" packages="dmn">
+        <ksession name="dmnKieSession"/>
+    </kbase>
+
+    <!-- Note: BPMN and PMML removed as they're not supported by the Kie Maven plugin -->
+
+    <!-- Decision tables knowledge base -->
+    <kbase name="dtablesKieBase" packages="dtables">
+        <ksession name="dtablesKieSession"/>
+    </kbase>
+
+</kmodule>

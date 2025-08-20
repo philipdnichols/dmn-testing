@@ -115,7 +115,7 @@
   </dmn:itemDefinition>
   <dmn:decisionService id="_supply_chain_optimization_service" name="Supply Chain Optimization Service">
     <dmn:extensionElements/>
-    <dmn:variable id="_supply_chain_optimization_service_variable" name="Supply Chain Optimization Service"/>
+    <dmn:variable id="_supply_chain_optimization_service_variable" name="Supply Chain Optimization Service" typeRef="Any"/>
     <dmn:outputDecision href="#_optimal_fulfillment_strategy"/>
     <dmn:outputDecision href="#_total_cost_estimation"/>
     <dmn:outputDecision href="#_delivery_timeline"/>

@@ -1,0 +1,30 @@
+package rules;
+
+import java.util.Map;
+
+rule "Test Rule 1"
+    when
+        $map : Map(this["age"] != null)
+        eval(((Number)$map.get("age")).intValue() > 18)
+    then
+        $map.put("eligible", true);
+        System.out.println("Person is eligible");
+end
+
+rule "Test Rule 2"
+    when
+        $map : Map(this["score"] != null)
+        eval(((Number)$map.get("score")).intValue() >= 80)
+    then
+        $map.put("grade", "A");
+        System.out.println("Grade: A");
+end
+
+rule "Test Rule 3 - Complex Logic"
+    when
+        $map : Map(this["income"] != null, this["expenses"] != null)
+        eval(((Number)$map.get("income")).intValue() > ((Number)$map.get("expenses")).intValue() * 2)
+    then
+        $map.put("financial_status", "good");
+        System.out.println("Good financial status");
+end

@@ -74,7 +74,7 @@
   </dmn:itemDefinition>
   <dmn:decisionService id="_insurance_risk_assessment_service" name="Insurance Risk Assessment Service">
     <dmn:extensionElements/>
-    <dmn:variable id="_insurance_risk_assessment_service_variable" name="Insurance Risk Assessment Service"/>
+    <dmn:variable id="_insurance_risk_assessment_service_variable" name="Insurance Risk Assessment Service" typeRef="Any"/>
     <dmn:outputDecision href="#_final_risk_assessment"/>
     <dmn:outputDecision href="#_premium_calculation"/>
     <dmn:encapsulatedDecision href="#_driver_risk_score"/>
@@ -111,35 +111,35 @@
     <dmn:informationRequirement id="_168179BE-F842-427E-B5D2-6257DE4D3B49">
       <dmn:requiredInput href="#_driving_history_input"/>
     </dmn:informationRequirement>
-    <dmn:decisionTable id="_driver_risk_score_table" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+    <dmn:decisionTable id="_driver_risk_score_table" hitPolicy="PRIORITY" preferredOrientation="Rule-as-Row">
       <dmn:input id="_age_input">
-        <dmn:inputExpression id="_age_expression" typeRef="number">
+        <dmn:inputExpression id="_8D3CE78F-A54D-4A4E-B457-E7773C13CFCB" typeRef="number">
           <dmn:text>Person.age</dmn:text>
         </dmn:inputExpression>
       </dmn:input>
       <dmn:input id="_gender_input">
-        <dmn:inputExpression id="_gender_expression" typeRef="string">
+        <dmn:inputExpression id="_AA05FEDB-A5B5-4D12-BD34-78A20A958AF5" typeRef="string">
           <dmn:text>Person.gender</dmn:text>
         </dmn:inputExpression>
       </dmn:input>
       <dmn:input id="_experience_input">
-        <dmn:inputExpression id="_experience_expression" typeRef="number">
+        <dmn:inputExpression id="_74720B10-9343-49DE-AF26-3D97E03CFE6F" typeRef="number">
           <dmn:text>DrivingHistory.yearsLicensed</dmn:text>
         </dmn:inputExpression>
       </dmn:input>
       <dmn:input id="_accidents_input">
-        <dmn:inputExpression id="_accidents_expression" typeRef="number">
+        <dmn:inputExpression id="_A7FF2D43-1310-4B9F-BF99-51589B54956B" typeRef="number">
           <dmn:text>DrivingHistory.accidentsLastThreeYears</dmn:text>
         </dmn:inputExpression>
       </dmn:input>
       <dmn:input id="_violations_input">
-        <dmn:inputExpression id="_violations_expression" typeRef="number">
+        <dmn:inputExpression id="_6F994A54-1634-40AA-9558-0A81E7901E05" typeRef="number">
           <dmn:text>DrivingHistory.violationsLastThreeYears</dmn:text>
         </dmn:inputExpression>
       </dmn:input>
       <dmn:output id="_driver_risk_output">
         <dmn:outputValues id="_driver_risk_output_values">
-          <dmn:text>10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100</dmn:text>
+          <dmn:text>100,75,50,35,25,15</dmn:text>
         </dmn:outputValues>
       </dmn:output>
       <dmn:annotation name="annotation-1"/>
@@ -260,25 +260,25 @@
       </dmn:rule>
       <dmn:rule id="_driver_risk_rule_default">
         <dmn:inputEntry id="_age_entry_default">
-          <dmn:text>-</dmn:text>
+          <dmn:text>[25..60)</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="_gender_entry_default">
-          <dmn:text>-</dmn:text>
+          <dmn:text>"FEMALE"</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="_experience_entry_default">
-          <dmn:text>-</dmn:text>
+          <dmn:text>&gt;= 5</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="_accidents_entry_default">
-          <dmn:text>-</dmn:text>
+          <dmn:text>&lt;= 1</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="_violations_entry_default">
-          <dmn:text>-</dmn:text>
+          <dmn:text>&lt;= 1</dmn:text>
         </dmn:inputEntry>
         <dmn:outputEntry id="_driver_risk_output_default">
           <dmn:text>50</dmn:text>
         </dmn:outputEntry>
         <dmn:annotationEntry>
-          <dmn:text>Default moderate risk</dmn:text>
+          <dmn:text>Moderate risk: Experienced female driver with good record</dmn:text>
         </dmn:annotationEntry>
       </dmn:rule>
     </dmn:decisionTable>
@@ -384,7 +384,16 @@
     <dmndi:DMNDiagram id="_B77A1E3E-10C1-43A3-95EF-60C74D2DE079" name="DRG">
       <di:extension>
         <kie:ComponentsWidthsExtension>
-          <kie:ComponentWidths dmnElementRef="_driver_risk_score_table"/>
+          <kie:ComponentWidths dmnElementRef="_driver_risk_score_table">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+          </kie:ComponentWidths>
           <kie:ComponentWidths dmnElementRef="_vehicle_risk_score_expression"/>
           <kie:ComponentWidths dmnElementRef="_financial_stability_expression"/>
           <kie:ComponentWidths dmnElementRef="_coverage_risk_adjustment_expression"/>

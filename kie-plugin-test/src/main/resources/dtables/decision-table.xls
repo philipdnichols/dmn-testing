@@ -1,0 +1,11 @@
+# This would be a binary Excel file in a real scenario
+# For testing purposes, we'll create a simple CSV-based decision table
+# The Kie Maven plugin should detect this as a decision table artifact
+
+RuleTable decision-table
+CONDITION,CONDITION,ACTION
+age,score,result
+"< 18","*","not eligible"
+">= 18","< 50","review"
+">= 18",">= 50","eligible"
+">= 65","*","senior eligible"

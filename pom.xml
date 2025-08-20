@@ -175,6 +175,15 @@
                             <mainClass>com.example.dmn.DMNRuntimeBuilderExample</mainClass>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>manual-testing</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.example.dmn.ManualTesting</mainClass>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

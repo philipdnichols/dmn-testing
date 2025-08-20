@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://kiegroup.org/dmn/_test" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_test" name="simple-decision" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://kiegroup.org/dmn/_test">
+  <dmn:extensionElements/>
+  <dmn:inputData id="_input_age" name="age">
+    <dmn:extensionElements/>
+    <dmn:variable id="_input_age_var" name="age" typeRef="number"/>
+  </dmn:inputData>
+  <dmn:inputData id="_input_score" name="score">
+    <dmn:extensionElements/>
+    <dmn:variable id="_input_score_var" name="score" typeRef="number"/>
+  </dmn:inputData>
+  <dmn:decision id="_decision_eligibility" name="eligibility">
+    <dmn:extensionElements/>
+    <dmn:variable id="_decision_eligibility_var" name="eligibility" typeRef="string"/>
+    <dmn:informationRequirement id="_info_req_age">
+      <dmn:requiredInput href="#_input_age"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_info_req_score">
+      <dmn:requiredInput href="#_input_score"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_dt_eligibility" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_input_age_dt">
+        <dmn:inputExpression id="_input_age_expr" typeRef="number">
+          <dmn:text>age</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_input_score_dt">
+        <dmn:inputExpression id="_input_score_expr" typeRef="number">
+          <dmn:text>score</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_output_eligibility">
+        <dmn:outputValues id="_output_values">
+          <dmn:text>"eligible","not eligible","review required"</dmn:text>
+        </dmn:outputValues>
+      </dmn:output>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_rule_1">
+        <dmn:inputEntry id="_input_age_1">
+          <dmn:text>&gt;= 18</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_input_score_1">
+          <dmn:text>&gt;= 80</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_output_eligibility_1">
+          <dmn:text>"eligible"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>High score and adult</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_rule_2">
+        <dmn:inputEntry id="_input_age_2">
+          <dmn:text>&lt; 18</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_input_score_2">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_output_eligibility_2">
+          <dmn:text>"not eligible"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Under age</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_rule_3">
+        <dmn:inputEntry id="_input_age_3">
+          <dmn:text>&gt;= 18</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_input_score_3">
+          <dmn:text>&lt; 80</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_output_eligibility_3">
+          <dmn:text>"review required"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Adult but low score</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+</dmn:definitions>

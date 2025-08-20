@@ -89,7 +89,7 @@
   </dmn:itemDefinition>
   <dmn:decisionService id="_portfolio_analysis_service" name="Portfolio Analysis Service">
     <dmn:extensionElements/>
-    <dmn:variable id="_portfolio_analysis_service_variable" name="Portfolio Analysis Service"/>
+    <dmn:variable id="_portfolio_analysis_service_variable" name="Portfolio Analysis Service" typeRef="Any"/>
     <dmn:outputDecision href="#_rebalancing_recommendation"/>
     <dmn:outputDecision href="#_expected_performance"/>
     <dmn:encapsulatedDecision href="#_risk_profile_assessment"/>
@@ -127,7 +127,7 @@
     <dmn:informationRequirement id="_03529A51-5CA7-4AD2-B293-6FD342D1A439">
       <dmn:requiredInput href="#_investment_goals_input"/>
     </dmn:informationRequirement>
-    <dmn:decisionTable id="_risk_profile_table" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+    <dmn:decisionTable id="_risk_profile_table" hitPolicy="PRIORITY" preferredOrientation="Rule-as-Row">
       <dmn:input id="_age_input">
         <dmn:inputExpression id="_age_expression" typeRef="number">
           <dmn:text>InvestorProfile.age</dmn:text>
@@ -155,7 +155,7 @@
       </dmn:input>
       <dmn:output id="_risk_profile_output">
         <dmn:outputValues id="_risk_profile_output_values">
-          <dmn:text>"CONSERVATIVE","MODERATE_CONSERVATIVE","MODERATE","MODERATE_AGGRESSIVE","AGGRESSIVE"</dmn:text>
+          <dmn:text>"AGGRESSIVE","MODERATE_AGGRESSIVE","MODERATE","MODERATE_CONSERVATIVE","CONSERVATIVE"</dmn:text>
         </dmn:outputValues>
       </dmn:output>
       <dmn:annotation name="annotation-1"/>
@@ -276,25 +276,25 @@
       </dmn:rule>
       <dmn:rule id="_risk_profile_rule_default">
         <dmn:inputEntry id="_age_entry_default">
-          <dmn:text>-</dmn:text>
+          <dmn:text>[30..65)</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="_risk_tolerance_entry_default">
-          <dmn:text>-</dmn:text>
+          <dmn:text>"MEDIUM"</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="_investment_horizon_entry_default">
-          <dmn:text>-</dmn:text>
+          <dmn:text>[5..15]</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="_net_worth_entry_default">
-          <dmn:text>-</dmn:text>
+          <dmn:text>&lt;= 250000</dmn:text>
         </dmn:inputEntry>
         <dmn:inputEntry id="_knowledge_level_entry_default">
-          <dmn:text>-</dmn:text>
+          <dmn:text>"BASIC","INTERMEDIATE"</dmn:text>
         </dmn:inputEntry>
         <dmn:outputEntry id="_risk_profile_output_default">
           <dmn:text>"MODERATE"</dmn:text>
         </dmn:outputEntry>
         <dmn:annotationEntry>
-          <dmn:text>Default moderate risk profile</dmn:text>
+          <dmn:text>Moderate risk profile for average investors</dmn:text>
         </dmn:annotationEntry>
       </dmn:rule>
     </dmn:decisionTable>

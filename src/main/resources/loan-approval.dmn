@@ -22,7 +22,7 @@
   </dmn:itemDefinition>
   <dmn:decisionService id="_loan_approval_service" name="Loan Approval Service">
     <dmn:extensionElements/>
-    <dmn:variable id="_loan_approval_service_variable" name="Loan Approval Service"/>
+    <dmn:variable id="_loan_approval_service_variable" name="Loan Approval Service" typeRef="Any"/>
     <dmn:outputDecision href="#_loan_approval"/>
     <dmn:encapsulatedDecision href="#_eligibility_check"/>
     <dmn:inputData href="#_loan_input"/>
