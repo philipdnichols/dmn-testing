@@ -10,6 +10,16 @@
     <logger name="org.drools" level="WARN"/>
     <logger name="org.kie" level="WARN"/>
     
+    <!-- Suppress verbose DMN result logging -->
+    <logger name="org.kie.dmn" level="ERROR"/>
+    <logger name="org.kie.dmn.core" level="ERROR"/>
+    <logger name="org.kie.dmn.core.impl" level="ERROR"/>
+    <logger name="org.kie.dmn.core.internal" level="ERROR"/>
+    
+    <!-- Specifically suppress DMNDecisionResultImpl toString() logging -->
+    <logger name="org.kie.dmn.core.impl.DMNDecisionResultImpl" level="OFF"/>
+    <logger name="org.kie.dmn.core.impl.DMNResultImpl" level="OFF"/>
+    
     <!-- Set logging level for root logger -->
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

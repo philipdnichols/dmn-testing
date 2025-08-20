@@ -17,21 +17,108 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+import org.HdrHistogram.Histogram;
 
 public class ManualTesting {
     
     /**
-     * A utility class for timing method executions using lambda expressions.
+     * A utility class for timing method executions using lambda expressions with statistical analysis.
      * Provides both void methods (Runnable) and methods that return values (Supplier).
+     * Uses HdrHistogram for accurate latency measurements and percentile calculations.
      */
     public static class TimingUtil {
         
+        private static final int DEFAULT_ITERATIONS = 100;
+        private static final int DEFAULT_WARMUP_ITERATIONS = 10;
+        
         /**
-         * Times a method that returns a value (using Supplier functional interface)
+         * Times a method that returns a value with comprehensive statistics
          * @param operation The operation to time
          * @param operationName A descriptive name for the operation
+         * @param iterations Number of times to run the operation
+         * @param warmupIterations Number of warmup iterations before measurement
          * @param <T> The return type of the operation
-         * @return TimedResult containing both the result and timing information
+         * @return StatisticalTimedResult containing result and comprehensive timing statistics
+         */
+        public static <T> StatisticalTimedResult<T> timeOperationWithStats(
+                Supplier<T> operation, String operationName, int iterations, int warmupIterations) {
+            
+            // Warmup phase
+            System.out.printf("[TIMING] Warming up %s (%d iterations)...%n", operationName, warmupIterations);
+            T result = null;
+            for (int i = 0; i < warmupIterations; i++) {
+                result = operation.get();
+            }
+            
+            // Measurement phase
+            System.out.printf("[TIMING] Measuring %s (%d iterations)...%n", operationName, iterations);
+            Histogram histogram = new Histogram(TimeUnit.SECONDS.toNanos(60), 3); // Track up to 60 seconds with 3 decimal precision
+            
+            for (int i = 0; i < iterations; i++) {
+                long startTime = System.nanoTime();
+                result = operation.get();
+                long endTime = System.nanoTime();
+                long durationNanos = endTime - startTime;
+                histogram.recordValue(durationNanos);
+            }
+            
+            TimingStatistics stats = new TimingStatistics(histogram);
+            printStatistics(operationName, stats);
+            
+            return new StatisticalTimedResult<>(result, stats);
+        }
+        
+        /**
+         * Times a method that returns a value with default iterations
+         */
+        public static <T> StatisticalTimedResult<T> timeOperationWithStats(Supplier<T> operation, String operationName) {
+            return timeOperationWithStats(operation, operationName, DEFAULT_ITERATIONS, DEFAULT_WARMUP_ITERATIONS);
+        }
+        
+        /**
+         * Times a void method with comprehensive statistics
+         * @param operation The operation to time
+         * @param operationName A descriptive name for the operation
+         * @param iterations Number of times to run the operation
+         * @param warmupIterations Number of warmup iterations before measurement
+         * @return TimingStatistics containing comprehensive timing information
+         */
+        public static TimingStatistics timeVoidOperationWithStats(
+                Runnable operation, String operationName, int iterations, int warmupIterations) {
+            
+            // Warmup phase
+            System.out.printf("[TIMING] Warming up %s (%d iterations)...%n", operationName, warmupIterations);
+            for (int i = 0; i < warmupIterations; i++) {
+                operation.run();
+            }
+            
+            // Measurement phase
+            System.out.printf("[TIMING] Measuring %s (%d iterations)...%n", operationName, iterations);
+            Histogram histogram = new Histogram(TimeUnit.SECONDS.toNanos(60), 3);
+            
+            for (int i = 0; i < iterations; i++) {
+                long startTime = System.nanoTime();
+                operation.run();
+                long endTime = System.nanoTime();
+                long durationNanos = endTime - startTime;
+                histogram.recordValue(durationNanos);
+            }
+            
+            TimingStatistics stats = new TimingStatistics(histogram);
+            printStatistics(operationName, stats);
+            
+            return stats;
+        }
+        
+        /**
+         * Times a void method with default iterations
+         */
+        public static TimingStatistics timeVoidOperationWithStats(Runnable operation, String operationName) {
+            return timeVoidOperationWithStats(operation, operationName, DEFAULT_ITERATIONS, DEFAULT_WARMUP_ITERATIONS);
+        }
+        
+        /**
+         * Legacy method for single timing (backwards compatibility)
          */
         public static <T> TimedResult<T> timeOperation(Supplier<T> operation, String operationName) {
             long startTime = System.nanoTime();
@@ -47,10 +134,7 @@ public class ManualTesting {
         }
         
         /**
-         * Times a void method (using Runnable functional interface)
-         * @param operation The operation to time
-         * @param operationName A descriptive name for the operation
-         * @return TimingInfo containing timing information
+         * Legacy method for single timing (backwards compatibility)
          */
         public static TimingInfo timeVoidOperation(Runnable operation, String operationName) {
             long startTime = System.nanoTime();
@@ -63,6 +147,20 @@ public class ManualTesting {
                 operationName, durationMillis, durationNanos / 1_000_000_000.0);
             
             return new TimingInfo(durationNanos, durationMillis);
+        }
+        
+        private static void printStatistics(String operationName, TimingStatistics stats) {
+            System.out.printf("=== %s Statistics ===%n", operationName);
+            System.out.printf("Iterations: %d%n", stats.getTotalCount());
+            System.out.printf("Average:    %.3f ms%n", stats.getMeanMs());
+            System.out.printf("Median:     %.3f ms%n", stats.getMedianMs());
+            System.out.printf("P95:        %.3f ms%n", stats.getP95Ms());
+            System.out.printf("P99:        %.3f ms%n", stats.getP99Ms());
+            System.out.printf("P99.9:      %.3f ms%n", stats.getP999Ms());
+            System.out.printf("Min:        %.3f ms%n", stats.getMinMs());
+            System.out.printf("Max:        %.3f ms%n", stats.getMaxMs());
+            System.out.printf("Std Dev:    %.3f ms%n", stats.getStdDeviationMs());
+            System.out.println("================================");
         }
     }
     
@@ -93,6 +191,70 @@ public class ManualTesting {
             this.durationMillis = durationMillis;
         }
     }
+    
+    /**
+     * Container for comprehensive timing statistics using HdrHistogram
+     */
+    public static class TimingStatistics {
+        private final Histogram histogram;
+        
+        public TimingStatistics(Histogram histogram) {
+            this.histogram = histogram;
+        }
+        
+        public long getTotalCount() {
+            return histogram.getTotalCount();
+        }
+        
+        public double getMeanMs() {
+            return histogram.getMean() / 1_000_000.0;
+        }
+        
+        public double getMedianMs() {
+            return histogram.getValueAtPercentile(50.0) / 1_000_000.0;
+        }
+        
+        public double getP95Ms() {
+            return histogram.getValueAtPercentile(95.0) / 1_000_000.0;
+        }
+        
+        public double getP99Ms() {
+            return histogram.getValueAtPercentile(99.0) / 1_000_000.0;
+        }
+        
+        public double getP999Ms() {
+            return histogram.getValueAtPercentile(99.9) / 1_000_000.0;
+        }
+        
+        public double getMinMs() {
+            return histogram.getMinValue() / 1_000_000.0;
+        }
+        
+        public double getMaxMs() {
+            return histogram.getMaxValue() / 1_000_000.0;
+        }
+        
+        public double getStdDeviationMs() {
+            return histogram.getStdDeviation() / 1_000_000.0;
+        }
+        
+        public Histogram getHistogram() {
+            return histogram;
+        }
+    }
+    
+    /**
+     * Container for a timed operation result with comprehensive statistics
+     */
+    public static class StatisticalTimedResult<T> {
+        public final T result;
+        public final TimingStatistics statistics;
+        
+        public StatisticalTimedResult(T result, TimingStatistics statistics) {
+            this.result = result;
+            this.statistics = statistics;
+        }
+    }
 
     private static final DMN[] DMNS = {
             new DMN("loan-approval.dmn", "loan-approval", "https://example.com/dmn", "Loan Approval Service"),
@@ -105,15 +267,11 @@ public class ManualTesting {
     public static void main(String[] args) {
         List<DMN> dmns = Arrays.stream(DMNS).toList();
 
-        // Use the timing utility to measure DMN runtime building with KieServices
-//        TimedResult<DMNRuntime> timedResultKie = TimingUtil.timeOperation(
-//            () -> buildDMNRuntimeUsingKieServices(dmns),
-//            "DMN Runtime Building (KieServices)"
-//        );
-//        DMNRuntime dmnRuntimeKie = timedResultKie.result;
+        System.out.println("=== Enhanced DMN Performance Analysis with Statistical Timing ===");
+        System.out.println();
 
-        // Use the timing utility to measure DMN runtime building with DMNRuntimeBuilder
-        TimedResult<DMNRuntime> timedResultBuilder = TimingUtil.timeOperation(
+        // Use the enhanced timing utility to measure DMN runtime building with comprehensive statistics
+        StatisticalTimedResult<DMNRuntime> timedResultBuilder = TimingUtil.timeOperationWithStats(
             () -> {
                 try {
                     return buildDMNRuntimeUsingDMNRuntimeBuilder(dmns);
@@ -121,20 +279,33 @@ public class ManualTesting {
                     throw new RuntimeException(e);
                 }
             },
-            "DMN Runtime Building (DMNRuntimeBuilder)"
+            "DMN Runtime Building (DMNRuntimeBuilder)",
+            50,  // Run 50 iterations for statistical accuracy
+            5    // 5 warmup iterations
         );
         DMNRuntime dmnRuntimeBuilder = timedResultBuilder.result;
 
-        // Use the timing utility to measure DMN evaluation
-//        TimingUtil.timeVoidOperation(
-//            () -> evaluateDmns(dmns, dmnRuntimeKie),
-//            "DMN Evaluation (KieServices Runtime)"
-//        );
-        
-        TimingUtil.timeVoidOperation(
+        // Use the enhanced timing utility to measure DMN evaluation with comprehensive statistics
+        TimingStatistics evaluationStats = TimingUtil.timeVoidOperationWithStats(
             () -> evaluateDmns(dmns, dmnRuntimeBuilder),
-            "DMN Evaluation (DMNRuntimeBuilder Runtime)"
+            "DMN Evaluation (DMNRuntimeBuilder Runtime)",
+            100, // Run 100 iterations for statistical accuracy
+            10   // 10 warmup iterations
         );
+
+        // Optional: demonstrate with default iterations (100 measurements, 10 warmups)
+        // System.out.println("\n=== Quick Test with Default Settings ===");
+        // TimingStatistics quickStats = TimingUtil.timeVoidOperationWithStats(
+        //     () -> evaluateDmns(dmns, dmnRuntimeBuilder),
+        //     "DMN Evaluation (Quick Test)"
+        // );
+
+        // Optional: legacy single-run timing for comparison
+        // System.out.println("\n=== Legacy Single-Run Timing for Comparison ===");
+        // TimingInfo legacyTiming = TimingUtil.timeVoidOperation(
+        //     () -> evaluateDmns(dmns, dmnRuntimeBuilder),
+        //     "DMN Evaluation (Single Run)"
+        // );
     }
 
     private static DMNRuntime buildDMNRuntimeUsingKieServices(List<DMN> dmns) {
@@ -214,10 +385,26 @@ public class ManualTesting {
             DMNModel dmnModel = dmnRuntime.getModel(dmn.namespace, dmn.name);
             DMNContext dmnContext = createTestContext(dmnRuntime, dmn.fileName);
             DMNResult dmnResult = dmnRuntime.evaluateDecisionService(dmnModel, dmnContext, dmn.decisionServiceName);
-            // System.out.println(dmn.decisionServiceName + " Results:");
-            dmnResult.getDecisionResults().forEach(System.out::println);
-            // System.out.println();
+            // Suppressed verbose DMN result logging for performance testing
+            // To see results, uncomment the line below:
+            // printCleanResults(dmn.decisionServiceName, dmnResult);
         });
+    }
+    
+    /**
+     * Utility method to print DMN results in a clean, readable format
+     * (instead of the verbose DMNDecisionResultImpl toString output)
+     */
+    private static void printCleanResults(String serviceName, DMNResult dmnResult) {
+        System.out.println("=== " + serviceName + " Results ===");
+        if (dmnResult.hasErrors()) {
+            System.out.println("ERRORS:");
+            dmnResult.getMessages().forEach(msg -> System.out.println("  " + msg));
+        } else {
+            dmnResult.getDecisionResults().forEach(result -> 
+                System.out.printf("  %-30s: %s%n", result.getDecisionName(), result.getResult()));
+        }
+        System.out.println();
     }
 
     private static DMNContext createTestContext(DMNRuntime runtime, String dmnFileName) {

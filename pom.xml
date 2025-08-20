@@ -67,6 +67,13 @@
             <version>${logback.version}</version>
         </dependency>
 
+        <!-- Performance measurement -->
+        <dependency>
+            <groupId>org.hdrhistogram</groupId>
+            <artifactId>HdrHistogram</artifactId>
+            <version>2.1.12</version>
+        </dependency>
+
         <!-- Testing dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
