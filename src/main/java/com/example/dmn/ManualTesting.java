@@ -5,14 +5,12 @@ import org.kie.api.builder.*;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.io.Resource;
+import org.kie.dmn.api.core.*;
+import org.kie.dmn.core.compiler.*;
+import org.kie.dmn.feel.parser.feel11.profiles.DoCompileFEELProfile;
 import org.kie.internal.io.ResourceFactory;
-import org.kie.dmn.api.core.DMNContext;
-import org.kie.dmn.api.core.DMNModel;
-import org.kie.dmn.api.core.DMNResult;
-import org.kie.dmn.api.core.DMNRuntime;
 import org.kie.dmn.core.impl.DMNRuntimeImpl;
 import org.kie.dmn.core.internal.utils.DMNRuntimeBuilder;
-import org.kie.dmn.core.compiler.RuntimeTypeCheckOption;
 
 
 import java.io.InputStream;
@@ -376,12 +374,19 @@ public class ManualTesting {
         }
 
         DMNRuntimeBuilder dmnRuntimeBuilder = DMNRuntimeBuilder.fromDefaults();
-
-        dmnRuntimeBuilder.setOption(new RuntimeTypeCheckOption(false));
         
         // Build the DMN runtime using the resource collection
         DMNRuntime dmnRuntime = dmnRuntimeBuilder
-            .buildConfiguration()
+//                .buildConfiguration()
+            .buildConfigurationUsingCustomCompiler((DMNCompilerConfiguration dmnCompilerConfiguration) -> {
+                DMNCompilerConfigurationImpl dmnCompilerConfigurationImpl = (DMNCompilerConfigurationImpl) dmnCompilerConfiguration;
+                dmnCompilerConfigurationImpl.addFEELProfile(new DoCompileFEELProfile());
+                dmnCompilerConfigurationImpl.setProperty(AlphaNetworkOption.PROPERTY_NAME, "true");
+                dmnCompilerConfigurationImpl.setProperty(ExecModelCompilerOption.PROPERTY_NAME, "true");
+                dmnCompilerConfigurationImpl.setProperty(RuntimeTypeCheckOption.PROPERTY_NAME, "false");
+
+                return new DMNCompilerImpl(dmnCompilerConfigurationImpl);
+            })
             .fromResources(resources)
             .getOrElseThrow(Exception::new);
 
