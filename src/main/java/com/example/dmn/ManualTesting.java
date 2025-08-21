@@ -10,7 +10,9 @@ import org.kie.dmn.api.core.DMNContext;
 import org.kie.dmn.api.core.DMNModel;
 import org.kie.dmn.api.core.DMNResult;
 import org.kie.dmn.api.core.DMNRuntime;
+import org.kie.dmn.core.impl.DMNRuntimeImpl;
 import org.kie.dmn.core.internal.utils.DMNRuntimeBuilder;
+import org.kie.dmn.core.compiler.RuntimeTypeCheckOption;
 
 
 import java.io.InputStream;
@@ -372,12 +374,21 @@ public class ManualTesting {
             resource.setSourcePath(dmn.fileName);
             resources.add(resource);
         }
+
+        DMNRuntimeBuilder dmnRuntimeBuilder = DMNRuntimeBuilder.fromDefaults();
+
+        dmnRuntimeBuilder.setOption(new RuntimeTypeCheckOption(false));
         
         // Build the DMN runtime using the resource collection
-        return DMNRuntimeBuilder.fromDefaults()
+        DMNRuntime dmnRuntime = dmnRuntimeBuilder
             .buildConfiguration()
             .fromResources(resources)
             .getOrElseThrow(Exception::new);
+
+        
+        ((DMNRuntimeImpl)dmnRuntime).setOption(new RuntimeTypeCheckOption(false));
+
+        return dmnRuntime;
     }
 
     private static void evaluateDmns(List<DMN> dmns, DMNRuntime dmnRuntime) {
